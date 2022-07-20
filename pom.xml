@@ -10,6 +10,7 @@
     <version>1.0-SNAPSHOT</version>
     <modules>
         <module>financialFinalContest-goods</module>
+        <module>financialFinalContest-gateway</module>
     </modules>
 
     <properties>
