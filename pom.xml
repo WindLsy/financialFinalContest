@@ -11,6 +11,7 @@
     <modules>
         <module>financialFinalContest-goods</module>
         <module>financialFinalContest-gateway</module>
+        <module>financialFinalContest-common</module>
     </modules>
 
     <properties>
