@@ -63,6 +63,13 @@
                 <artifactId>mybatis-plus-boot-starter</artifactId>
                 <version>3.4.3</version>
             </dependency>
+            <!--分页插件-->
+            <dependency>
+                <groupId>com.github.pagehelper</groupId>
+                <artifactId>pagehelper</artifactId>
+                <version>5.1.2</version>
+            </dependency>
+
 
             <dependency>
                 <groupId>com.alibaba</groupId>
@@ -85,7 +92,18 @@
                 <artifactId>spring-boot-starter-data-redis</artifactId>
                 <version>2.1.3.RELEASE</version>
             </dependency>
-
+            <!--fastdfs-->
+            <dependency>
+                <groupId>net.oschina.zcx7878</groupId>
+                <artifactId>fastdfs-client-java</artifactId>
+                <version>1.27.0.0</version>
+            </dependency>
+            <!--文件上传包-->
+            <dependency>
+                <groupId>commons-fileupload</groupId>
+                <artifactId>commons-fileupload</artifactId>
+                <version>1.3.3</version>
+            </dependency>
             <!--javaBean转换-->
             <dependency>
                 <groupId>org.mapstruct</groupId>

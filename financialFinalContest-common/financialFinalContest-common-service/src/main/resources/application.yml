@@ -1,0 +1,17 @@
+server:
+  port: 10010
+
+spring:
+  main:
+    allow-bean-definition-overriding: true
+  application:
+    name: common-service
+  cloud:
+    nacos:
+      discovery:
+        server-addr: txyun.linshiyou.cn:8848
+        namespace: 9363ed09-7faa-4342-8e2d-319648b345e1
+        cluster-name: DEFAULT
+
+logging:
+  config: classpath:log4j2.xml
