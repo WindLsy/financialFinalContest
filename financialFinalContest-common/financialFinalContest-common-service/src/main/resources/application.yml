@@ -1,7 +1,13 @@
 server:
   port: 10010
 
+file:
+  size: 2MB
+
 spring:
+  servlet:
+    multipart:
+      max-file-size: ${file.size}
   main:
     allow-bean-definition-overriding: true
   application:
@@ -10,7 +16,7 @@ spring:
     nacos:
       discovery:
         server-addr: txyun.linshiyou.cn:8848
-        namespace: 9363ed09-7faa-4342-8e2d-319648b345e1
+        namespace: d9071204-66d3-4d7b-9dbb-16dcbd337a3c
         cluster-name: DEFAULT
 
 logging:

@@ -1,12 +1,17 @@
 package cn.linshiyou.financialFinalContest.common.controller;
 
-import cn.linshiyou.financialFinalContest.common.entity.Result;
-import cn.linshiyou.financialFinalContest.common.entity.StatusCode;
+import cn.linshiyou.financialFinalContest.common.pojo.Result;
+import cn.linshiyou.financialFinalContest.common.pojo.StatusCode;
 import cn.linshiyou.financialFinalContest.common.util.fastdfs.FastDFSClient;
 import cn.linshiyou.financialFinalContest.common.util.fastdfs.FastDFSFile;
+import lombok.extern.slf4j.Slf4j;
+import org.apache.tomcat.util.http.fileupload.FileUploadException;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+
+import java.io.IOException;
 
 /**
  * @Author: LJ
@@ -15,7 +20,11 @@ import org.springframework.web.multipart.MultipartFile;
 @CrossOrigin
 @RestController
 @RequestMapping("/file")
+@Slf4j
 public class FileController {
+
+    @Value("$file.size")
+    private String fileSize;
 
     /**
      * 文件上传
@@ -41,13 +50,19 @@ public class FileController {
             //5.创建文件上传的封装实体类
             FastDFSFile fastDFSFile = new FastDFSFile(originalFilename,content,extName);
             //6.基于工具类进行文件上传,并接受返回参数  String[]
+
             String[] uploadResult = FastDFSClient.upload(fastDFSFile);
             //7.封装返回结果
             String url = FastDFSClient.getTrackerUrl()+uploadResult[0]+"/"+uploadResult[1];
             //FastDFSClient.getTrackerUrl() 此时为txyun.linshiyou.cn:8080/
 //            String url = uploadResult[0]+"/"+uploadResult[1];
+
+
             return new Result(true, StatusCode.OK,"文件上传成功",url);
-        }catch (Exception e){
+        } catch (IOException e) {
+            log.error("文件读取失败");
+            e.printStackTrace();
+        } catch (Exception e){
             e.printStackTrace();
         }
         return new Result(false, StatusCode.ERROR,"文件上传失败,请稍后再试");
