@@ -1,4 +1,4 @@
-package cn.linshiyou.financialFinalContest.common.entity;
+package cn.linshiyou.financialFinalContest.common.pojo;
 
 /**
  * 返回结果实体类
