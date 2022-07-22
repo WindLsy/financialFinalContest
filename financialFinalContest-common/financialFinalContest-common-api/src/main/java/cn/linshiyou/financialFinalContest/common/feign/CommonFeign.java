@@ -16,7 +16,7 @@ public interface CommonFeign {
     /**
      * 文件上传
      * @param file
-     * @return 文件路径url
+     * @return 文件路径url:String
      */
     @PostMapping(value = "/file/upload")
     Result upload(@RequestPart(value = "file") MultipartFile file);
