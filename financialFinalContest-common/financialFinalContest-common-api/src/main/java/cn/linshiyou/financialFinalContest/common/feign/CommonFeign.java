@@ -1,6 +1,6 @@
 package cn.linshiyou.financialFinalContest.common.feign;
 
-import cn.linshiyou.financialFinalContest.common.entity.Result;
+import cn.linshiyou.financialFinalContest.common.pojo.Result;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestPart;
