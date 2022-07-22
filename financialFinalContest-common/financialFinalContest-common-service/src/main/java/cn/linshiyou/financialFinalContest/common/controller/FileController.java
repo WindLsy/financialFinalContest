@@ -32,7 +32,7 @@ public class FileController {
      * @return
      */
     @PostMapping(value = "/upload")
-    public Result upload(@RequestPart(value = "file") MultipartFile file){
+    public Result fileUpload(@RequestPart(value = "file") MultipartFile file){
         try{
             //1.判断文件是否存在
             if (file == null){
