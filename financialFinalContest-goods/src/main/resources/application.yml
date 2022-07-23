@@ -21,5 +21,12 @@ spring:
         namespace: d9071204-66d3-4d7b-9dbb-16dcbd337a3c
         cluster-name: DEFAULT
 
+mybatis-plus:
+  configuration:
+    #日志打印到控制台
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+    map-underscore-to-camel-case: true
+  mapper-locations: classpath*:cn/linshiyou/financialFinalContest/goods/dao/mapper/xml/*.xml
+
 logging:
   config: classpath:log4j2.xml
