@@ -42,6 +42,8 @@ public class CodeStateController {
         codeState.setName(name);
         codeState.setTypeId(type_id);
 
+        codeStateService.save(codeState);
+
         return Result.builder()
                 .flag(true)
                 .code(StatusCode.OK)
@@ -68,7 +70,7 @@ public class CodeStateController {
 
 
     /**
-     * 根据类型id查询状态
+     * 根据类型id查询所有状态
      * @param type_id 类型type_id
      * @return List<CodeStateDTO>
      */

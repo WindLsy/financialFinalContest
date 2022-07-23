@@ -26,6 +26,10 @@ spring:
         cluster-name: DEFAULT
 
 mybatis-plus:
+  configuration:
+    #日志打印到控制台
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+    map-underscore-to-camel-case: true
   mapper-locations: classpath*:cn/linshiyou/financialFinalContest/common/dao/mapper/xml/*.xml
 
 logging:

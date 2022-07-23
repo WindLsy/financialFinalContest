@@ -13,5 +13,5 @@ public class CodeStateDTO extends CodeState {
     /**
      * 状态类型名
      */
-    private String type_name;
+    private String typeName;
 }
