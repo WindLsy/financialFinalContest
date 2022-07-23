@@ -1,5 +1,5 @@
 server:
-  port: 9100
+  port: 10100
 
 spring:
   main:
@@ -14,9 +14,15 @@ spring:
         cluster-name: DEFAULT
     gateway:
       routes:
-        - id: account-service
-          uri: lb://account-service
+        - id: common-service
+          uri: lb://common-service
           predicates:
-            - Path=/account-service/**
+            - Path=/common-service/**
+          filters:
+            - StripPrefix= 1
+        - id: goods-service
+          uri: lb://goods-service
+          predicates:
+            - Path=/goods-service/**
           filters:
             - StripPrefix= 1
