@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.linshiyou.financialFinalContest.common.dao.mapper.CodeStateMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="cn.linshiyou.financialFinalContest.common.dao.entity.CodeState">
+        <id column="id" property="id" />
+        <result column="name" property="name" />
+        <result column="type_id" property="typeId" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id, name, type_id
+    </sql>
+
+    <select id="getByTypeId" resultType="cn.linshiyou.financialFinalContest.common.dao.dto.CodeStateDTO">
+        SELECT
+            code_state.*,
+            code_type.`name` type_name
+        FROM code_state
+            LEFT JOIN code_type
+            ON code_type.id = code_state.type_id
+        WHERE code_type.id=#{type_id}
+
+    </select>
+
+</mapper>

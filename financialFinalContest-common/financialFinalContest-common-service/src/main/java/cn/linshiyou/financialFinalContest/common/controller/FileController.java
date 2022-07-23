@@ -23,13 +23,11 @@ import java.io.IOException;
 @Slf4j
 public class FileController {
 
-    @Value("$file.size")
-    private String fileSize;
 
     /**
      * 文件上传
      * @param file
-     * @return
+     * @return 文件url:String
      */
     @PostMapping(value = "/upload")
     public Result fileUpload(@RequestPart(value = "file") MultipartFile file){
