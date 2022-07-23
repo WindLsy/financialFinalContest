@@ -1,8 +1,11 @@
 package cn.linshiyou.financialFinalContest.common.pojo;
 
+import lombok.Builder;
+
 /**
  * 返回结果实体类
  */
+@Builder
 public class Result<T> {
     //是否成功
     private boolean flag;
