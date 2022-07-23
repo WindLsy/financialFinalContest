@@ -29,11 +29,4 @@ public interface CodeTypeFeign {
     @GetMapping("/{id}")
     Result getById(@PathVariable("id") int id);
 
-    /**
-     * 获取所有类型
-     * @return List<CodeType>
-     */
-    @GetMapping
-    Result getAll();
-
 }
