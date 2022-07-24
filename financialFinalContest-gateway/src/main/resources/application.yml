@@ -26,3 +26,9 @@ spring:
             - Path=/goods-service/**
           filters:
             - StripPrefix= 1
+        - id: swap-service
+          uri: lb://swap-service
+          predicates:
+            - Path=/swap-service/**
+          filters:
+            - StripPrefix= 1
