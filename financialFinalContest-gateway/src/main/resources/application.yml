@@ -32,3 +32,15 @@ spring:
             - Path=/swap-service/**
           filters:
             - StripPrefix= 1
+        - id: login-service
+          uri: lb://login-service
+          predicates:
+            - Path=/login-service/**
+          filters:
+            - StripPrefix= 1
+        - id: msm-service
+          uri: lb://msm-service
+          predicates:
+            - Path=/msm-service/**
+          filters:
+            - StripPrefix= 1

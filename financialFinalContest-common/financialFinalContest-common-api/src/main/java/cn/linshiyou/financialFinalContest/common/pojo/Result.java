@@ -66,4 +66,22 @@ public class Result<T> {
     public void setData(T data) {
         this.data = data;
     }
+
+    // 新增
+    protected static <T> Result<T> build(T data) {
+        Result<T> result = new Result<T>();
+        if (data != null) {
+            result.setData(data);
+        }
+        return result;
+    }
+    public static <T> Result<T> build(T body, Integer code) {
+        Result<T> result = build(body);
+        result.setCode(code);
+        return result;
+    }
+    public static<T> Result<T> ok(T data){
+        Result<T> result = build(data);
+        return build(data, 20000);
+    }
 }

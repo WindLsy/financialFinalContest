@@ -1,0 +1,12 @@
+spring:
+  redis:
+    host: txyun.linshiyou.cn
+    port: 6379
+    password: gL0(bG0&jM
+    lettuce:
+      pool:
+        max-active: 10
+        max-idle: 10
+        min-idle: 1
+        time-between-eviction-runs: 10s
+    database: 0
