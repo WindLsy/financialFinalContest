@@ -38,7 +38,7 @@ public class BaseExceptionHandler {
     @ResponseBody
     public Result error(MaxUploadSizeExceededException e){
         e.printStackTrace();
-        return new Result(false, StatusCode.ERROR, "文件大小不能超过2MB");
+        return new Result(false, StatusCode.ERROR, "文件大小不能超过5MB");
     }
 
     /**

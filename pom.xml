@@ -12,6 +12,8 @@
         <module>financialFinalContest-goods</module>
         <module>financialFinalContest-gateway</module>
         <module>financialFinalContest-common</module>
+        <module>financialFinalContest-swap</module>
+        <module>financialFinalContest-search</module>
     </modules>
 
     <properties>
@@ -63,11 +65,11 @@
                 <artifactId>mybatis-plus-boot-starter</artifactId>
                 <version>3.4.3</version>
             </dependency>
-            <!--分页插件-->
+            <!--分页插件坐标-->
             <dependency>
                 <groupId>com.github.pagehelper</groupId>
-                <artifactId>pagehelper</artifactId>
-                <version>5.1.2</version>
+                <artifactId>pagehelper-spring-boot-starter</artifactId>
+                <version>1.4.3</version>
             </dependency>
 
 
@@ -115,12 +117,15 @@
                 <artifactId>mapstruct-processor</artifactId>
                 <version>${org.mapstruct.version}</version>
             </dependency>
-
+            <!-- fastjson -->
+            <dependency>
+                <groupId>com.alibaba</groupId>
+                <artifactId>fastjson</artifactId>
+                <version>1.2.68</version>
+            </dependency>
         </dependencies>
 
     </dependencyManagement>
-
-
 
 
 

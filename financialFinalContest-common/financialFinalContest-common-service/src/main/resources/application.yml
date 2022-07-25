@@ -2,7 +2,7 @@ server:
   port: 10010
 
 file:
-  size: 2MB
+  size: 5MB
 
 spring:
   servlet:

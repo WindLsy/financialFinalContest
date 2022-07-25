@@ -1,8 +1,20 @@
 package cn.linshiyou.financialFinalContest.goods.controller;
 
 
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import cn.linshiyou.financialFinalContest.common.feign.CommonFeign;
+import cn.linshiyou.financialFinalContest.common.pojo.Result;
+import cn.linshiyou.financialFinalContest.common.pojo.StatusCode;
+import cn.linshiyou.financialFinalContest.goods.dao.dto.GoodsDTO;
+import cn.linshiyou.financialFinalContest.goods.dao.entity.Goods;
+import cn.linshiyou.financialFinalContest.goods.service.GoodsService;
+import com.github.pagehelper.Page;
+import com.github.pagehelper.PageHelper;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+
+import java.util.List;
 
 /**
  * <p>
@@ -14,7 +26,106 @@ import org.springframework.web.bind.annotation.RestController;
  */
 @RestController
 @RequestMapping("/goods")
+@Slf4j
 public class GoodsController {
+
+    @Autowired
+    private CommonFeign commonFeign;
+
+    @Autowired
+    private GoodsService goodsService;
+
+    /**
+     * 物品上传
+     * @param good 物品
+     * @param file 事务图
+     * @return
+     */
+    @PostMapping
+    public Result add(Goods good, @RequestPart(value = "file") MultipartFile file){
+
+        goodsService.add(good, file);
+
+        return Result.builder()
+                .flag(true)
+                .code(StatusCode.OK)
+                .message("添加成功")
+                .build();
+    }
+
+    /**
+     * 根据条件查询
+     * @return
+     */
+    @GetMapping
+    public Result getBycondition(@RequestParam(value = "startPage", defaultValue = "1") int startPage,
+                                 @RequestParam(value = "sizePage", defaultValue = "10") int sizePage,
+                                 @RequestParam(required = false) String name,
+                                 @RequestParam(required = false) Integer typeId,
+                                 @RequestParam(required = false) Integer userId){
+
+        Page<Goods> goodsPage = goodsService.getBycondition(startPage, sizePage, name, typeId, userId);
+
+        return Result.builder()
+                .flag(true)
+                .code(StatusCode.OK)
+                .data(goodsPage.toPageInfo())
+                .message("查询成功")
+                .build();
+    }
+
+    /**
+     * 根据id获取商品
+     * @return
+     */
+    @GetMapping("/{id}")
+    public Result getById(@PathVariable(value = "id") Long id){
+
+        Goods good = goodsService.getById(id);
+
+        return Result.builder()
+                .flag(true)
+                .code(StatusCode.OK)
+                .data(good)
+                .message("查询成功")
+                .build();
+    }
+
+
+    /**
+     * 修改物品
+     * @return
+     */
+    @PutMapping("/update/{id}")
+    public Result updateById(Goods good){
+
+        goodsService.updateById(good);
+
+        return Result.builder()
+                .flag(true)
+                .code(StatusCode.OK)
+                .data(good)
+                .message("修改成功")
+                .build();
+    }
+
+
+
+    /**
+     * 根据id删除商品
+     * @return
+     */
+    @DeleteMapping("/delete/{id}")
+    public Result deleteById(@PathVariable(value = "id") Long id){
+
+        goodsService.removeById(id);
+
+        return Result.builder()
+                .flag(true)
+                .code(StatusCode.OK)
+                .message("删除成功")
+                .build();
+    }
 
 }
 
