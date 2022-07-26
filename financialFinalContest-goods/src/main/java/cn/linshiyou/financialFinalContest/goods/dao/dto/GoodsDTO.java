@@ -51,7 +51,7 @@ public class GoodsDTO implements Serializable {
     /**
      * 物品价值
      */
-    private Float price;
+    private Double price;
 
     /**
      * 物品图片
@@ -62,6 +62,15 @@ public class GoodsDTO implements Serializable {
      * 物品描述
      */
     private String description;
+    /**
+     * 物品状态id
+     */
+    private Integer statusId;
+
+    /**
+     * 物品状态
+     */
+    private String statusName;
 
 
 }

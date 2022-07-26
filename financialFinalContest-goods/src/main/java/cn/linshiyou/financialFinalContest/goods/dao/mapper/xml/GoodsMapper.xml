@@ -11,11 +11,12 @@
         <result column="price" property="price" />
         <result column="image" property="image" />
         <result column="description" property="description" />
+        <result column="status_id" property="statusId" />
     </resultMap>
 
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
-        id, user_id, name, type_id, price, image, description
+        id, user_id, name, type_id, price, image, description, status_id
     </sql>
 
 </mapper>

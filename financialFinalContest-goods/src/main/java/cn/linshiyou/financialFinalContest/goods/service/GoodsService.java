@@ -7,6 +7,7 @@ import com.github.pagehelper.Page;
 import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.Serializable;
 import java.util.List;
 
 /**
@@ -29,14 +30,9 @@ public interface GoodsService extends IService<Goods> {
     void add(Goods good, MultipartFile file);
 
     /**
-     *  根据条件查询GoodsDTO
-     * @param startPage
-     * @param sizePage
-     * @param name
-     * @param typeId
-     * @param userId
+     * 根据id查询
+     * @param id
      * @return
      */
-    Page<Goods> getBycondition(int startPage, int sizePage, String name, Integer typeId, Integer userId);
-
+    GoodsDTO getByIdSelf(Serializable id);
 }

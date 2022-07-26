@@ -8,13 +8,11 @@ import cn.linshiyou.financialFinalContest.goods.dao.dto.GoodsDTO;
 import cn.linshiyou.financialFinalContest.goods.dao.entity.Goods;
 import cn.linshiyou.financialFinalContest.goods.service.GoodsService;
 import com.github.pagehelper.Page;
-import com.github.pagehelper.PageHelper;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.util.List;
 
 /**
  * <p>
@@ -53,26 +51,6 @@ public class GoodsController {
                 .build();
     }
 
-    /**
-     * 根据条件查询
-     * @return
-     */
-    @GetMapping
-    public Result getBycondition(@RequestParam(value = "startPage", defaultValue = "1") int startPage,
-                                 @RequestParam(value = "sizePage", defaultValue = "10") int sizePage,
-                                 @RequestParam(required = false) String name,
-                                 @RequestParam(required = false) Integer typeId,
-                                 @RequestParam(required = false) Integer userId){
-
-        Page<Goods> goodsPage = goodsService.getBycondition(startPage, sizePage, name, typeId, userId);
-
-        return Result.builder()
-                .flag(true)
-                .code(StatusCode.OK)
-                .data(goodsPage.toPageInfo())
-                .message("查询成功")
-                .build();
-    }
 
     /**
      * 根据id获取商品
@@ -81,12 +59,12 @@ public class GoodsController {
     @GetMapping("/{id}")
     public Result getById(@PathVariable(value = "id") Long id){
 
-        Goods good = goodsService.getById(id);
+        GoodsDTO goodsDTO = goodsService.getByIdSelf(id);
 
         return Result.builder()
                 .flag(true)
                 .code(StatusCode.OK)
-                .data(good)
+                .data(goodsDTO)
                 .message("查询成功")
                 .build();
     }

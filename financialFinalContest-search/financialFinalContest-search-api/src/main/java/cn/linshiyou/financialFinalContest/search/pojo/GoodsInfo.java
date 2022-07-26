@@ -1,6 +1,8 @@
 package cn.linshiyou.financialFinalContest.search.pojo;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.springframework.data.elasticsearch.annotations.Document;
 import org.springframework.data.elasticsearch.annotations.Field;
 import org.springframework.data.elasticsearch.annotations.FieldType;
@@ -13,6 +15,8 @@ import java.io.Serializable;
  * @Description: 物品索引
  */
 @Data
+@NoArgsConstructor
+@AllArgsConstructor
 @Document(indexName = "goodsinfo")
 public class GoodsInfo implements Serializable {
 
@@ -32,7 +36,7 @@ public class GoodsInfo implements Serializable {
     /**
      * 物品名称
      */
-    @Field(index = true, store = true, type = FieldType.Text, searchAnalyzer = "ik_max_word", copyTo = "searchString")
+    @Field(index = true, store = true, type = FieldType.Text, analyzer = "ik_max_word", copyTo = "searchString")
     private String name;
 
     /**
@@ -45,7 +49,7 @@ public class GoodsInfo implements Serializable {
     /**
      * 类型名称
      */
-    @Field(index = true, store = true, type = FieldType.Text,  searchAnalyzer = "ik_smart", copyTo = "searchString")
+    @Field(index = false, store = true, type = FieldType.Keyword)
     private String typeName;
 
 
@@ -53,23 +57,34 @@ public class GoodsInfo implements Serializable {
      * 物品价值
      */
     @Field(index = true, store = true, type = FieldType.Double)
-    private Float price;
+    private Double price;
 
     /**
      * 物品图片
      */
-    @Field(index = true, store = true, type = FieldType.Keyword)
+    @Field(index = false, store = true, type = FieldType.Keyword)
     private String image;
 
     /**
      * 物品描述
      */
-    @Field(index = true, store = true, type = FieldType.Text, searchAnalyzer = "ik_smart", copyTo = "searchString")
+    @Field(index = true, store = true, type = FieldType.Text, analyzer = "ik_smart", copyTo = "searchString")
     private String description;
 
     /**
+     * 物品状态id
+     */
+    @Field(index = true, store = true, type = FieldType.Keyword)
+    private Integer statusId;
+
+    /**
+     * 物品状态
+     */
+    @Field(index = false, store = true, type = FieldType.Keyword)
+    private String statusName;
+    /**
      * 搜索索引
      */
-    @Field(index = true, store = true, type = FieldType.Text, searchAnalyzer = "ik_max_word")
+    @Field(index = true, store = true, type = FieldType.Text, analyzer = "ik_max_word")
     private String searchString;
 }

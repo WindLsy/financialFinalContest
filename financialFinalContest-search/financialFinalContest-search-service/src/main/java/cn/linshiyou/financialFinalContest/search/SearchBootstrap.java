@@ -5,9 +5,9 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 
 @SpringBootApplication
-public class EsSearchBootstrap {
+public class SearchBootstrap {
 
     public static void main(String[] args) {
-        SpringApplication.run(EsSearchBootstrap.class,args);
+        SpringApplication.run(SearchBootstrap.class,args);
     }
 }
