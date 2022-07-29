@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.lj.account_note.dao.mapper.GoodsMapper">
+<mapper namespace="cn.linshiyou.financialFinalContest.goods.dao.mapper.GoodsMapper">
 
     <!-- 通用查询映射结果 -->
-    <resultMap id="BaseResultMap" type="com.lj.account_note.dao.entity.Goods">
+    <resultMap id="BaseResultMap" type="cn.linshiyou.financialFinalContest.goods.dao.entity.Goods">
         <id column="id" property="id" />
         <result column="user_id" property="userId" />
         <result column="name" property="name" />

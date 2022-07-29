@@ -27,6 +27,22 @@ public class RabbitMQConfig {
     public static final String DELETE_GOODS_QUEUE="delete_goods_queue";
 
     /**
+     * 交易第一阶段，A确认交换物品,发起交换
+     */
+    public static final String SWAP_ONE_QUEUE="swap_one_queue";
+
+    /**
+     * 交易第二阶段，B确认交换物品,等待A最后确认
+     */
+    public static final String SWAP_TWO_QUEUE="swap_two_queue";
+
+    /**
+     * 交易第三阶段，B确认交换物品，提醒物品交换完成
+     */
+    public static final String SWAP_THREE_QUEUE="swap_three_queue";
+
+
+    /**
      * 声明队列
      */
     @Bean(AD_GOODS_QUEUE)
@@ -49,5 +65,30 @@ public class RabbitMQConfig {
     public Queue DELETE_GOODS_QUEUE(){
         return new Queue(DELETE_GOODS_QUEUE);
     }
+
+    /**
+     * 声明队列
+     */
+    @Bean(SWAP_ONE_QUEUE)
+    public Queue SWAP_ONE_QUEUE(){
+        return new Queue(SWAP_ONE_QUEUE);
+    }
+
+    /**
+     * 声明队列
+     */
+    @Bean(SWAP_ONE_QUEUE)
+    public Queue SWAP_TWO_QUEUE(){
+        return new Queue(SWAP_TWO_QUEUE);
+    }
+
+    /**
+     * 声明队列
+     */
+    @Bean(SWAP_ONE_QUEUE)
+    public Queue SWAP_THREE_QUEUE(){
+        return new Queue(SWAP_THREE_QUEUE);
+    }
+
 
 }

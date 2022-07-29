@@ -1,4 +1,4 @@
-package cn.linshiyou.financialFinalContest.goods.config;
+package cn.linshiyou.financialFinalContest.swap.config;
 
 import org.springframework.amqp.core.Queue;
 import org.springframework.context.annotation.Bean;
