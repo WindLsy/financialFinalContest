@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.linshiyou.financialFinalContest.swap.dao.mapper.SwapBillMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="cn.linshiyou.financialFinalContest.swap.dao.entity.SwapBill">
+        <id column="id" property="id" />
+        <result column="user_Aid" property="userAid" />
+        <result column="user_Bid" property="userBid" />
+        <result column="description" property="description" />
+        <result column="create_time" property="createTime" />
+        <result column="update_time" property="updateTime" />
+        <result column="status_id" property="statusId" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id, user_Aid, user_Bid, description, create_time, update_time, status_id
+    </sql>
+
+</mapper>

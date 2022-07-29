@@ -36,31 +36,15 @@ public class Swap implements Serializable {
     private Long goodId;
 
     /**
-     * 用户Aid
+     * list_id
      */
-    @TableField("user_Aid")
-    private Long userAid;
+    private Long listId;
+
 
     /**
-     * 用户Bid
+     * 如果交换成功拥有者id
      */
-    @TableField("user_Bid")
-    private Long userBid;
-
-    /**
-     * 创建时间
-     */
-    private Date createTime;
-
-    /**
-     * 更新时间
-     */
-    private Date updateTime;
-
-    /**
-     * 交易状态
-     */
-    private Integer statusId;
+    private Long userFinalId;
 
 
 }

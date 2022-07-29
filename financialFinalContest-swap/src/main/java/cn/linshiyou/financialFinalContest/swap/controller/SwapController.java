@@ -1,9 +1,16 @@
 package cn.linshiyou.financialFinalContest.swap.controller;
 
 
-import org.springframework.web.bind.annotation.RequestMapping;
+import cn.linshiyou.financialFinalContest.common.pojo.Result;
+import cn.linshiyou.financialFinalContest.common.pojo.StatusCode;
+import cn.linshiyou.financialFinalContest.swap.dao.entity.Swap;
+import cn.linshiyou.financialFinalContest.swap.dao.entity.SwapBill;
+import cn.linshiyou.financialFinalContest.swap.service.SwapService;
+import com.github.pagehelper.Page;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.*;
 
-import org.springframework.web.bind.annotation.RestController;
+import java.util.List;
 
 /**
  * <p>
@@ -18,7 +25,92 @@ import org.springframework.web.bind.annotation.RestController;
 public class SwapController {
 
 
-    
+    @Autowired
+    private SwapService swapService;
+
+    /**
+     * 交换第一阶段
+     * 必需参数
+     * goodId：物品id集合
+     * userAid：用户Aid
+     * user_Bid：用户Bid
+     *
+     * swaps:user_final_id:如果交换成功拥有者id
+     *
+     * @param swapList
+     * @return
+     */
+    @PostMapping("/inone")
+    public Result swapOne ( @RequestParam Long userAId,
+                            @RequestParam Long userBId,
+                            @RequestBody List<Swap> swaps){
+
+        swapService.stageOneSwap(userAId, userBId, swaps);
+
+        return Result.builder()
+                .flag(true)
+                .code(StatusCode.OK)
+                .message("交易一阶段成功")
+                .build();
+    }
+
+    /**
+     * 交换第二阶段
+     * 必需参数
+     * id：交易id
+     * statusId：交易状态id
+     *
+     * @return
+     */
+    @PutMapping("/intwo")
+    public Result swapTwo(@RequestBody SwapBill swapBill){
+
+        swapService.stageTwoSwap(swapBill);
+
+        return Result.builder()
+                .flag(true)
+                .code(StatusCode.OK)
+                .message("交易二阶段成功")
+                .build();
+    }
+
+    /**
+     * 交换第三阶段
+     * 必需参数
+     * id：交易id
+     *
+     * @return
+     */
+    @PutMapping("/inthree")
+    public Result swapThree(@RequestBody SwapBill swapBill){
+
+        swapService.stageThreeSwap(swapBill);
+
+        return Result.builder()
+                .flag(true)
+                .code(StatusCode.OK)
+                .message("交易三阶段成功")
+                .build();
+    }
+
+    /**
+     * 查询交易记录(分页)
+     */
+    @GetMapping("/get")
+    public Result getByuserId(@RequestParam(value = "startPage", defaultValue = "0") int startPage,
+                              @RequestParam(value = "sizePage", defaultValue = "10") int sizePage,
+                              @RequestParam Long UserId){
+
+        Page<SwapBill> swapBills = swapService.selectByUserid(startPage, sizePage, UserId);
+
+
+        return  Result.builder()
+                .flag(true)
+                .code(StatusCode.OK)
+                .data(swapBills.toPageInfo())
+                .message("查询成功")
+                .build();
+    }
+
 
 }
-

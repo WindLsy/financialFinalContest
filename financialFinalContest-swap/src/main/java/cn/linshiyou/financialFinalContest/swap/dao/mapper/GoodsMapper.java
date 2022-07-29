@@ -1,6 +1,6 @@
 package cn.linshiyou.financialFinalContest.swap.dao.mapper;
 
-import cn.linshiyou.financialFinalContest.swap.dao.entity.Swap;
+import cn.linshiyou.financialFinalContest.swap.dao.entity.Goods;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 
 /**
@@ -9,8 +9,8 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
  * </p>
  *
  * @author LJ
- * @since 2022-07-29
+ * @since 2022-07-23
  */
-public interface SwapMapper extends BaseMapper<Swap> {
+public interface GoodsMapper extends BaseMapper<Goods> {
 
 }

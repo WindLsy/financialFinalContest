@@ -28,9 +28,6 @@ import org.springframework.web.multipart.MultipartFile;
 public class GoodsController {
 
     @Autowired
-    private CommonFeign commonFeign;
-
-    @Autowired
     private GoodsService goodsService;
 
     /**
