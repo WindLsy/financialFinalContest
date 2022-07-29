@@ -95,6 +95,7 @@ public class SwapController {
 
     /**
      * 查询交易记录(分页)
+     * 根据当前登录用户
      */
     @GetMapping("/get")
     public Result getByuserId(@RequestParam(value = "startPage", defaultValue = "0") int startPage,

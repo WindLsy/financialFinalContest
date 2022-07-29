@@ -39,6 +39,7 @@ public class SearchController {
                 .build();
     }
 
+
     @GetMapping("/searchByCondition")
     public Result searchByCondition(@RequestParam(value = "startPage", defaultValue = "0") int startPage,
                                     @RequestParam(value = "sizePage", defaultValue = "10") int sizePage,

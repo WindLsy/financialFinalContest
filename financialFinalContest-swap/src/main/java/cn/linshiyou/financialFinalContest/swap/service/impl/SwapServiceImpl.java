@@ -173,8 +173,8 @@ public class SwapServiceImpl extends ServiceImpl<SwapMapper, Swap> implements Sw
         Page<SwapBill> swapBills = (Page<SwapBill>) swapBillMapper.selectList(new LambdaQueryWrapper<SwapBill>()
                 .eq(SwapBill::getUserAid, userId)
                 .or()
-                .eq(SwapBill::getUserBid, userId));
-
+                .eq(SwapBill::getUserBid, userId)
+                .orderByAsc(SwapBill::getUpdateTime));
 
         return swapBills;
     }
