@@ -13,6 +13,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.util.List;
+
 
 /**
  * <p>
@@ -98,15 +100,22 @@ public class GoodsController {
                 .build();
     }
 
-    // TODO 最小物品集合
-    @GetMapping("/lcontainer")
-    public Result getLcontainer(){
+    /**
+     * 根据用户id和欲交换的物品价值生成最小物品集合
+     * @param userId
+     * @param price
+     * @return
+     */
+    @GetMapping("/lcontainer/{userId}/{price}")
+    public Result getLcontainer(@PathVariable(value = "userId") Long userId,
+                                @PathVariable(value = "price") Double price){
 
+        List<Goods> leastContainer = goodsService.getLeastContainer(userId, price);
 
         return Result.builder()
                 .flag(true)
                 .code(StatusCode.OK)
-//                .data()
+                .data(leastContainer)
                 .message("最小物品集合")
                 .build();
     }
