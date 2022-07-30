@@ -104,7 +104,6 @@ public class SwapController {
 
         Page<SwapBill> swapBills = swapService.selectByUserid(startPage, sizePage, UserId);
 
-
         return  Result.builder()
                 .flag(true)
                 .code(StatusCode.OK)
@@ -112,6 +111,5 @@ public class SwapController {
                 .message("查询成功")
                 .build();
     }
-
 
 }

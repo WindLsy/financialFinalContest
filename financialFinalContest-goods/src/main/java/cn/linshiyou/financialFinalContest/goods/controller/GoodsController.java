@@ -48,7 +48,6 @@ public class GoodsController {
                 .build();
     }
 
-
     /**
      * 根据id获取商品
      * @return
@@ -65,7 +64,6 @@ public class GoodsController {
                 .message("查询成功")
                 .build();
     }
-
 
     /**
      * 修改物品
@@ -84,8 +82,6 @@ public class GoodsController {
                 .build();
     }
 
-
-
     /**
      * 根据id删除商品
      * @return
@@ -99,6 +95,19 @@ public class GoodsController {
                 .flag(true)
                 .code(StatusCode.OK)
                 .message("删除成功")
+                .build();
+    }
+
+    // TODO 最小物品集合
+    @GetMapping("/lcontainer")
+    public Result getLcontainer(){
+
+
+        return Result.builder()
+                .flag(true)
+                .code(StatusCode.OK)
+//                .data()
+                .message("最小物品集合")
                 .build();
     }
 
