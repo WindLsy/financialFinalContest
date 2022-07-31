@@ -145,7 +145,7 @@ public class GoodsServiceImpl extends ServiceImpl<GoodsMapper, Goods> implements
         List<Goods> goodsListBydata = goodsMapper.selectList(new LambdaQueryWrapper<Goods>().eq(Goods::getUserId, userId).orderByAsc(Goods::getPrice));
 
         double min = 0.0D;
-        for (Goods goods: goodsList){
+        for (Goods goods: goodsListBydata){
             if (min<price){
                 min += goods.getPrice();
                 goodsList.add(goods);
