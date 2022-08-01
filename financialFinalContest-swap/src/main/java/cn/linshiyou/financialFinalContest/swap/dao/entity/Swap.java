@@ -27,7 +27,7 @@ public class Swap implements Serializable {
     /**
      * id
      */
-    @TableId(value = "id", type = IdType.ASSIGN_UUID)
+    @TableId(value = "id", type = IdType.ASSIGN_ID)
     private Long id;
 
     /**

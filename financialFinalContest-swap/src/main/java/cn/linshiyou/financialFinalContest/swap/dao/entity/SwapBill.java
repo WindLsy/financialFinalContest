@@ -28,7 +28,7 @@ public class SwapBill implements Serializable {
     /**
      * 交换列表id
      */
-    @TableId(value = "id", type = IdType.ASSIGN_UUID)
+    @TableId(value = "id", type = IdType.ASSIGN_ID)
     private Long id;
 
     /**

@@ -139,9 +139,8 @@ public class SwapServiceImpl extends ServiceImpl<SwapMapper, Swap> implements Sw
             goodsMapper.update(goods, new LambdaUpdateWrapper<Goods>()
                     .eq(Goods::getId, goods.getId())
                     .set(Goods::getUserId, goods.getUserId())
-                    .set(Goods::getStatusId, goods.getStatusId()));
+                    .set(Goods::getStatusId, 13));
         }
-
 
         // MQ消息体
         SwapBill billData = swapBillMapper.selectById(swapBill.getId());
@@ -153,8 +152,6 @@ public class SwapServiceImpl extends ServiceImpl<SwapMapper, Swap> implements Sw
         String swapListJson = JSON.toJSONString(swapMq);
         // 发送到MQ
         rabbitTemplate.convertAndSend(RabbitMQConfig.SWAP_THREE_QUEUE, swapListJson);
-
-
 
 
     }

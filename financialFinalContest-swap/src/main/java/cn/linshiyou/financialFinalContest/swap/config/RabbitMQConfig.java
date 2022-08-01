@@ -32,12 +32,12 @@ public class RabbitMQConfig {
     public static final String SWAP_ONE_QUEUE="swap_one_queue";
 
     /**
-     * 交易第二阶段，B确认交换物品,等待A最后确认
+     * 交易第二阶段，B同意/拒绝交换物品,等待A最后确认
      */
     public static final String SWAP_TWO_QUEUE="swap_two_queue";
 
     /**
-     * 交易第三阶段，B确认交换物品，提醒物品交换完成
+     * 交易第三阶段，B确认交换物品，物品交换完成
      */
     public static final String SWAP_THREE_QUEUE="swap_three_queue";
 

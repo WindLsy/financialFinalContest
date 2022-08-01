@@ -35,4 +35,12 @@ public interface GoodsService extends IService<Goods> {
      * @return
      */
     GoodsDTO getByIdSelf(Serializable id);
+
+    /**
+     * 根据用户id和欲交换的物品价值生成最小物品集合
+     * @param userId
+     * @param price
+     * @return
+     */
+    List<Goods> getLeastContainer(Long userId, Double price);
 }

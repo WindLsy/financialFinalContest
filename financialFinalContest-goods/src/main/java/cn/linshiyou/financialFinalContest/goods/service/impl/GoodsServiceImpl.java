@@ -23,7 +23,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -127,6 +129,42 @@ public class GoodsServiceImpl extends ServiceImpl<GoodsMapper, Goods> implements
         }
 
         return goodsDTO;
+    }
+
+    /**
+     * 根据用户id和欲交换的物品价值生成最小物品集合
+     * @param userId
+     * @param price
+     * @return
+     */
+    @Override
+    public List<Goods> getLeastContainer(Long userId, Double price) {
+
+        List<Goods> goodsList = new ArrayList<>();
+
+        List<Goods> goodsListBydata = goodsMapper.selectList(new LambdaQueryWrapper<Goods>().eq(Goods::getUserId, userId).orderByAsc(Goods::getPrice));
+
+        double min = 0.0D;
+        for (Goods goods: goodsListBydata){
+            if (min<price){
+                min += goods.getPrice();
+                goodsList.add(goods);
+            }else {
+                break;
+            }
+        }
+
+        while (min>price){
+            Goods removeGoods = goodsList.remove(0);
+            min -= removeGoods.getPrice();
+            if (min<price){
+                goodsList.add(0, removeGoods);
+                break;
+            }
+        }
+
+
+        return goodsList;
     }
 
     /**
