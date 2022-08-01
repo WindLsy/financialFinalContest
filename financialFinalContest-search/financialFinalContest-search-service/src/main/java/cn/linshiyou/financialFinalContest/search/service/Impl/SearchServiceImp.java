@@ -128,7 +128,6 @@ public class SearchServiceImp implements SearchService {
             goodsInfos.add(hit.getContent());
         }
         Page<GoodsInfo> goodsInfoPage = new PageImpl<>(goodsInfos,pageable,searchHits.getTotalHits());
-
         return goodsInfoPage;
     }
 

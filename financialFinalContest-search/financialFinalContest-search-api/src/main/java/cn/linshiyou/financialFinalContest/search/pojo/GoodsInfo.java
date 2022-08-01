@@ -1,5 +1,7 @@
 package cn.linshiyou.financialFinalContest.search.pojo;
 
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -25,6 +27,7 @@ public class GoodsInfo implements Serializable {
      */
     @Id
     @Field(index = true, store = true, type = FieldType.Keyword)
+    @JsonSerialize(using=ToStringSerializer.class)
     private Long id;
 
     /**
