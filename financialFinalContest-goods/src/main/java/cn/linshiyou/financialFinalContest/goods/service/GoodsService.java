@@ -27,7 +27,7 @@ public interface GoodsService extends IService<Goods> {
      * @param file 图片图片
      * @return
      */
-    void add(Goods good, MultipartFile file);
+    void add(Goods good);
 
     /**
      * 根据id查询

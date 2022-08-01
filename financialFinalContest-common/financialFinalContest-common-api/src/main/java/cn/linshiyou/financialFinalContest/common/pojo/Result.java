@@ -75,7 +75,7 @@ public class Result<T> {
         }
         return result;
     }
-    public static <T> Result<T> build(T body, Integer code) {
+    public static <T> Result<T> build(T body, int code) {
         Result<T> result = build(body);
         result.setCode(code);
         return result;

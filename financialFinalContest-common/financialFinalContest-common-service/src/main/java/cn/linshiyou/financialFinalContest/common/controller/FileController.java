@@ -17,7 +17,7 @@ import java.io.IOException;
  * @Author: LJ
  * @Description: 文件上传
  */
-@CrossOrigin
+
 @RestController
 @RequestMapping("/file")
 @Slf4j

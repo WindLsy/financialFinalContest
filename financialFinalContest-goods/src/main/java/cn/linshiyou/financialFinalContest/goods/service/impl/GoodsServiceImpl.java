@@ -61,10 +61,8 @@ public class GoodsServiceImpl extends ServiceImpl<GoodsMapper, Goods> implements
      * @return
      */
     @Override
-    public void add(Goods good, MultipartFile file) {
+    public void add(Goods good) {
 
-        String imageUrl = (String) commonFeign.fileUpload(file).getData();
-        good.setImage(imageUrl);
         good.setStatusId(12);
         goodsMapper.insert(good);
 

@@ -8,6 +8,7 @@ import cn.linshiyou.financialFinalContest.goods.dao.dto.GoodsDTO;
 import cn.linshiyou.financialFinalContest.goods.dao.entity.Goods;
 import cn.linshiyou.financialFinalContest.goods.service.GoodsService;
 import com.github.pagehelper.Page;
+import feign.Param;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -39,9 +40,9 @@ public class GoodsController {
      * @return
      */
     @PostMapping
-    public Result add(Goods good, @RequestPart(value = "file") MultipartFile file){
+    public Result add(@RequestBody Goods good){
 
-        goodsService.add(good, file);
+        goodsService.add(good);
 
         return Result.builder()
                 .flag(true)
