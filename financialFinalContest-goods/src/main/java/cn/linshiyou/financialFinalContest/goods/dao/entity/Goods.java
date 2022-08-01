@@ -3,6 +3,9 @@ package cn.linshiyou.financialFinalContest.goods.dao.entity;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 import java.io.Serializable;
+
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
@@ -25,12 +28,14 @@ public class Goods implements Serializable {
     /**
      * 主键
      */
+    @JsonSerialize(using= ToStringSerializer.class)
     @TableId(value = "id", type = IdType.ASSIGN_ID)
     private Long id;
 
     /**
      * 用户id
      */
+    @JsonSerialize(using=ToStringSerializer.class)
     private Long userId;
 
     /**

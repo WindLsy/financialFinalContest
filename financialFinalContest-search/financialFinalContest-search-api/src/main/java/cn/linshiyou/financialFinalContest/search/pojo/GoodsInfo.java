@@ -34,6 +34,7 @@ public class GoodsInfo implements Serializable {
      * 用户id
      */
     @Field(index = true, store = true, type = FieldType.Keyword)
+    @JsonSerialize(using=ToStringSerializer.class)
     private Long userId;
 
     /**
