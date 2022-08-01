@@ -1,5 +1,7 @@
 package cn.linshiyou.financialFinalContest.search.pojo;
 
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
@@ -24,11 +26,13 @@ public class GoodsDTO implements Serializable {
     /**
      * 主键
      */
+    @JsonSerialize(using= ToStringSerializer.class)
     private Long id;
 
     /**
      * 用户id
      */
+    @JsonSerialize(using=ToStringSerializer.class)
     private Long userId;
 
     /**
