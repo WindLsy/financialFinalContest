@@ -33,7 +33,7 @@ public interface SearchService {
      * @param statusId 类型id
      * @return
      */
-    Page<GoodsInfo> selectByCondition(int startPage, int sizePage, String searchString, Double price, boolean isUp, Long typeId, Long statusId);
+    Page<GoodsInfo> selectByCondition(int startPage, int sizePage, String searchString, Double price, boolean isUp, Long userId, Long typeId, Long statusId);
 
     /**
      * 删除文档

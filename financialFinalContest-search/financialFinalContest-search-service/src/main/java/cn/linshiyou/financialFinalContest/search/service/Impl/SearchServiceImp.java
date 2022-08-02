@@ -72,7 +72,7 @@ public class SearchServiceImp implements SearchService {
      * @return
      */
     @Override
-    public Page<GoodsInfo> selectByCondition(int startPage, int sizePage, String searchString, Double price, boolean isUp, Long typeId, Long statusId) {
+    public Page<GoodsInfo> selectByCondition(int startPage, int sizePage, String searchString, Double price, boolean isUp, Long userId, Long typeId, Long statusId) {
 
         Pageable pageable = PageRequest.of(startPage, sizePage);
         FieldSortBuilder sortBuilder;
@@ -102,6 +102,9 @@ public class SearchServiceImp implements SearchService {
                 RangeQueryBuilder gtePrice = QueryBuilders.rangeQuery("price").gte(price);
                 queryBuilder.filter(gtePrice);
             }
+        }
+        if (userId!=null){
+            queryBuilder.must(QueryBuilders.matchQuery("userId", userId));
         }
         if (typeId!=null){
             queryBuilder.must(QueryBuilders.matchQuery("typeId", typeId));
