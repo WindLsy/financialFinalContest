@@ -14,4 +14,10 @@ public interface UserInfoService extends IService<UserInfo> {
 
     //根据openid判断
     UserInfo selectWxInfoOpenId(String openid);
+
+    //获取手机号
+    String getPhone(Long userId);
+
+    //获取姓名
+    String getName(Long userId);
 }

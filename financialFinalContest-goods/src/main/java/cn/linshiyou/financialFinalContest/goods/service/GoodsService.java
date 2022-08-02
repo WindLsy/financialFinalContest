@@ -7,6 +7,7 @@ import com.github.pagehelper.Page;
 import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.servlet.http.HttpServletRequest;
 import java.io.Serializable;
 import java.util.List;
 
@@ -24,10 +25,9 @@ public interface GoodsService extends IService<Goods> {
     /**
      * 添加新的物品
      * @param good 物品类
-     * @param file 图片图片
      * @return
      */
-    void add(Goods good);
+    void add(Goods good, HttpServletRequest request);
 
     /**
      * 根据id查询

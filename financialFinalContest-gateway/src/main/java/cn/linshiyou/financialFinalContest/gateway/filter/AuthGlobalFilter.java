@@ -34,12 +34,6 @@ public class AuthGlobalFilter implements GlobalFilter, Ordered {
         String path = request.getURI().getPath();
         System.out.println("==="+path);
 
-        //当你的请求path包含inner，判断是内部服务接口，不允许外部访问
-        if(antPathMatcher.match("/**/inner/**", path)) {
-            ServerHttpResponse response = exchange.getResponse();
-            return out(response, StatusCode.ACCESSERROR);
-        }
-
 
         //api接口，异步请求
         if(antPathMatcher.match("/**/upload/**", path)) {

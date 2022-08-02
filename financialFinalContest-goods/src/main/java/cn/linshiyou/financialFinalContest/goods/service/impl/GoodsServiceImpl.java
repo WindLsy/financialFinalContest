@@ -10,6 +10,7 @@ import cn.linshiyou.financialFinalContest.goods.dao.entity.Goods;
 import cn.linshiyou.financialFinalContest.goods.dao.mapper.GoodsMapper;
 import cn.linshiyou.financialFinalContest.goods.service.GoodsService;
 import cn.linshiyou.financialFinalContest.goods.util.Constant;
+import cn.linshiyou.financialFinalContest.goods.util.UserUtil;
 import com.alibaba.fastjson.JSON;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
@@ -22,6 +23,7 @@ import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.servlet.http.HttpServletRequest;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
@@ -57,16 +59,14 @@ public class GoodsServiceImpl extends ServiceImpl<GoodsMapper, Goods> implements
     /**
      * 添加新的物品
      * @param good 物品类
-     * @param file 图片图片
      * @return
      */
     @Override
-    public void add(Goods good) {
+    public void add(Goods good, HttpServletRequest request) {
 
         good.setStatusId(12);
+        good.setUserId(UserUtil.getUserId(request));
         goodsMapper.insert(good);
-
-
         GoodsDTO goodsDTO = goodsToDTO(good);
         String goodsDTOString = JSON.toJSONString(goodsDTO);
         // 发送到redis

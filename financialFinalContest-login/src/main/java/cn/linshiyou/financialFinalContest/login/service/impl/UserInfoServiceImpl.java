@@ -84,8 +84,6 @@ public class UserInfoServiceImpl extends
                 baseMapper.insert(userInfo);
             }
         }
-
-        //不是第一次登录，直接登录。假设用户是userInfo == null手机号登录的，并且已经注册过不用走73行的代码了，直接走下面的即可。
         //返回登录信息
         //返回登录用户名
         //返回token信息，token信息是用来返回给前台的，执行操作时判断用户是否登录状态，可以设置过期时间用session一样
@@ -113,6 +111,28 @@ public class UserInfoServiceImpl extends
         queryWrapper.eq("openid", openid);
         UserInfo userInfo = baseMapper.selectOne(queryWrapper);
         return userInfo;
+    }
+
+    @Override
+    public String getPhone(Long userId) {
+        QueryWrapper<UserInfo> wrapper = new QueryWrapper<>();
+        wrapper.eq("id", userId);
+        UserInfo userInfo = baseMapper.selectOne(wrapper);
+        return userInfo.getPhone();
+    }
+
+    @Override
+    public String getName(Long userId) {
+        QueryWrapper<UserInfo> wrapper = new QueryWrapper<>();
+        wrapper.eq("id", userId);
+        UserInfo userInfo = baseMapper.selectOne(wrapper);
+        String name = null;
+        if (userInfo.getNickName() == null) {
+            name = userInfo.getPhone();
+        } else {
+            name = userInfo.getNickName();
+        }
+        return name;
     }
 
 

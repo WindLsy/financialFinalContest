@@ -14,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 
@@ -40,9 +41,9 @@ public class GoodsController {
      * @return
      */
     @PostMapping
-    public Result add(@RequestBody Goods good){
+    public Result add(@RequestBody Goods good, HttpServletRequest request){
 
-        goodsService.add(good);
+        goodsService.add(good, request);
 
         return Result.builder()
                 .flag(true)
