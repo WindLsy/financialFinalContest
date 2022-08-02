@@ -46,10 +46,11 @@ public class SearchController {
                                     String searchString,
                                     Double price,
                                     boolean isUp,
+                                    Long userId,
                                     Long typeId,
                                     Long statusId){
 
-        Page<GoodsInfo> goodsInfoPage = searchService.selectByCondition(startPage, sizePage, searchString, price, isUp, typeId, statusId);
+        Page<GoodsInfo> goodsInfoPage = searchService.selectByCondition(startPage, sizePage, searchString, price, isUp, userId, typeId, statusId);
 
         return Result.builder()
                 .flag(true)

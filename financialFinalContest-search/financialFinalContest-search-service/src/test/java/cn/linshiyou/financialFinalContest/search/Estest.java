@@ -116,9 +116,9 @@ public class Estest {
      */
     @Test
     public void testService(){
-        Page<GoodsInfo> goodsInfoPage = esGoodsService.selectByCondition(0, 3, "洗衣机",
-                300D, false, null, 12L);
-        log.info(goodsInfoPage.getContent()+"");
+//        Page<GoodsInfo> goodsInfoPage = esGoodsService.selectByCondition(0, 3, "洗衣机",
+//                300D, false, null, 12L);
+//        log.info(goodsInfoPage.getContent()+"");
     }
 
 }
