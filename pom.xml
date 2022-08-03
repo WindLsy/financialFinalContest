@@ -31,7 +31,7 @@
         <org.projectlombok.version>1.18.0</org.projectlombok.version>
         <aliyun.version>4.3.3</aliyun.version>
         <jodatime.version>2.10.1</jodatime.version>
-        <jwt.version>0.7.0</jwt.version>
+        <jwt.version>0.9.0</jwt.version>
         <httpclient.version>4.5.1</httpclient.version>
 
     </properties>
