@@ -20,4 +20,6 @@ public interface UserInfoService extends IService<UserInfo> {
 
     //获取姓名
     String getName(Long userId);
+
+    Long getUserId(String name);
 }

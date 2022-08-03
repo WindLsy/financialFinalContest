@@ -74,7 +74,7 @@ public class GoodsController {
      * @return
      */
     @PutMapping("/update/{id}")
-    public Result updateById(Goods good){
+    public Result updateById(@RequestBody Goods good){
 
         goodsService.updateById(good);
 

@@ -135,5 +135,14 @@ public class UserInfoServiceImpl extends
         return name;
     }
 
+    @Override
+    public Long getUserId(String name) {
+
+        QueryWrapper<UserInfo> wrapper = new QueryWrapper<>();
+        wrapper.eq("nick_name", name).or().eq("phone", name);
+        UserInfo userInfo = baseMapper.selectOne(wrapper);
+        return userInfo.getId();
+    }
+
 
 }
