@@ -35,15 +35,15 @@ public class AuthGlobalFilter implements GlobalFilter, Ordered {
         System.out.println("==="+path);
 
 
-        //api接口，异步请求
-        if(antPathMatcher.match("/**/upload/**", path)) {
-            Long userId = this.getUserId(request);
-            //校验用户是否已经登录，如果userId为null，则进去
-            if(StringUtils.isEmpty(userId)) {
-                ServerHttpResponse response = exchange.getResponse();
-                return out(response, StatusCode.ACCESSERROR);
-            }
-        }
+//        //api接口，异步请求
+//        if(antPathMatcher.match("/**/upload/**", path)) {
+//            Long userId = this.getUserId(request);
+//            //校验用户是否已经登录，如果userId为null，则进去
+//            if(StringUtils.isEmpty(userId)) {
+//                ServerHttpResponse response = exchange.getResponse();
+//                return out(response, StatusCode.ACCESSERROR);
+//            }
+//        }
         return chain.filter(exchange);
     }
 

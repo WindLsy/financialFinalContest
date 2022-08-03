@@ -67,6 +67,7 @@ public class SearchServiceImp implements SearchService {
      * @param searchString 物品的名称/类型名/描述
      * @param price 价格
      * @param isUp 这个价格以上/以下
+     * @param userId 用户id
      * @param typeId 类型id
      * @param statusId 商品状态id
      * @return
