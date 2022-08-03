@@ -24,7 +24,7 @@ spring:
         server-addr: txyun.linshiyou.cn:8848
         namespace: d9071204-66d3-4d7b-9dbb-16dcbd337a3c
         cluster-name: DEFAULT
-#        ip: txyun.linshiyou.cn
+        ip: txyun.linshiyou.cn
 
 mybatis-plus:
   configuration:
