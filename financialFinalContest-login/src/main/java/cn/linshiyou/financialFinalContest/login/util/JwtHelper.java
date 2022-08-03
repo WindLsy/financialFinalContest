@@ -3,17 +3,31 @@ package cn.linshiyou.financialFinalContest.login.util;
 import io.jsonwebtoken.*;
 import org.springframework.util.StringUtils;
 
+import javax.crypto.SecretKey;
+import javax.crypto.spec.SecretKeySpec;
+import java.util.Base64;
 import java.util.Date;
 
 public class JwtHelper {
 
-    // 过期时间
+    /**
+     * 过期时间
+     */
     private static long tokenExpiration = 24 * 60 * 60 * 1000;
-    // 签名秘钥
-    private static String tokenSignKey = "123456";
+    /**
+     * 签名秘钥
+     */
+    private static String tokenSignKey = "financial";
 
-    // 根据参数生成token
+    /**
+     * 根据参数生成token
+     * @param userId
+     * @param userName
+     * @return
+     */
     public static String createToken(Long userId, String userName) {
+        //对秘钥加密
+
         String token = Jwts.builder()
                 .setSubject("USER")
                 .setExpiration(new Date(System.currentTimeMillis() + tokenExpiration))
@@ -25,19 +39,26 @@ public class JwtHelper {
         return token;
     }
 
-    // 根据token字符串得到用户id
+    /**
+     * 根据token字符串得到用户id
+     * @param token
+     * @return
+     */
     public static Long getUserId(String token) {
         if (StringUtils.isEmpty(token)) {
             return null;
         }
-
         Jws<Claims> claimsJws = Jwts.parser().setSigningKey(tokenSignKey).parseClaimsJws(token);
         Claims claims = claimsJws.getBody();
         Integer userId = (Integer) claims.get("userId");
         return userId.longValue();
     }
 
-    // 根据token字符串得到用户名称
+    /**
+     * 根据token得到用户名称
+     * @param token
+     * @return
+     */
     public static String getUserName(String token) {
         if (StringUtils.isEmpty(token)) {
             return "";
@@ -47,11 +68,6 @@ public class JwtHelper {
         return (String) claims.get("userName");
     }
 
-    public static void main(String[] args) {
-        String token = JwtHelper.createToken(1L, "lucy");
-        System.out.println(token);
-        System.out.println(JwtHelper.getUserId(token));
-        System.out.println(JwtHelper.getUserName(token));
-    }
+
 }
 
