@@ -36,5 +36,26 @@ public class JwtHelper {
                 .getBody();
     }
 
+
+    /**
+     * 根据参数生成token
+     * @param userId
+     * @param userName
+     * @return
+     */
+    public static String createToken(String userId, String userName) {
+        //对秘钥加密
+
+        String token = Jwts.builder()
+                .setSubject("USER")
+                .setExpiration(new Date(System.currentTimeMillis() + tokenExpiration))
+                .claim("userId", userId)
+                .claim("userName", userName)
+                .signWith(SignatureAlgorithm.HS512, tokenSignKey)
+                .compressWith(CompressionCodecs.GZIP)
+                .compact();
+        return token;
+    }
+
 }
 
