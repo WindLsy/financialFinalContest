@@ -34,7 +34,10 @@ public class AuthorizeFilter implements GlobalFilter {
         ServerHttpResponse response = exchange.getResponse();
         //如果是登录或短信服务请求则放行
         String path = request.getURI().getPath();
-        if (path.contains("/user/login") || path.startsWith("/wx")) {
+        if (path.contains("/user/login")
+                || path.startsWith("/wx")
+                || path.startsWith("/search")
+                || path.startsWith("/msm/send")) {
             return chain.filter(exchange);
         }
         HttpHeaders headers = request.getHeaders();
@@ -54,7 +57,7 @@ public class AuthorizeFilter implements GlobalFilter {
             response.setStatusCode(HttpStatus.UNAUTHORIZED);
             return response.setComplete();
         }
-        //12. 放行
+
         return chain.filter(exchange);
     }
 }

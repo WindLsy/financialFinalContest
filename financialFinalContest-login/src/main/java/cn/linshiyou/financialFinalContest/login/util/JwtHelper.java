@@ -27,14 +27,13 @@ public class JwtHelper {
      */
     public static String createToken(Long userId, String userName) {
         //对秘钥加密
-        SecretKey key = generalKey();
 
         String token = Jwts.builder()
                 .setSubject("USER")
                 .setExpiration(new Date(System.currentTimeMillis() + tokenExpiration))
                 .claim("userId", userId)
                 .claim("userName", userName)
-                .signWith(SignatureAlgorithm.HS512, key)
+                .signWith(SignatureAlgorithm.HS512, tokenSignKey)
                 .compressWith(CompressionCodecs.GZIP)
                 .compact();
         return token;
@@ -49,8 +48,7 @@ public class JwtHelper {
         if (StringUtils.isEmpty(token)) {
             return null;
         }
-        SecretKey key = generalKey();
-        Jws<Claims> claimsJws = Jwts.parser().setSigningKey(key).parseClaimsJws(token);
+        Jws<Claims> claimsJws = Jwts.parser().setSigningKey(tokenSignKey).parseClaimsJws(token);
         Claims claims = claimsJws.getBody();
         Integer userId = (Integer) claims.get("userId");
         return userId.longValue();
@@ -62,25 +60,14 @@ public class JwtHelper {
      * @return
      */
     public static String getUserName(String token) {
-        SecretKey key = generalKey();
         if (StringUtils.isEmpty(token)) {
             return "";
         }
-        Jws<Claims> claimsJws = Jwts.parser().setSigningKey(key).parseClaimsJws(token);
+        Jws<Claims> claimsJws = Jwts.parser().setSigningKey(tokenSignKey).parseClaimsJws(token);
         Claims claims = claimsJws.getBody();
         return (String) claims.get("userName");
     }
 
-    /**
-     * 生成加密后的秘钥 secretKey
-     *
-     * @return
-     */
-    public static SecretKey generalKey() {
-        byte[] encodedKey = Base64.getDecoder().decode(tokenSignKey);
-        SecretKey key = new SecretKeySpec(encodedKey, 0, encodedKey.length, "AES");
-        return key;
-    }
 
 }
 

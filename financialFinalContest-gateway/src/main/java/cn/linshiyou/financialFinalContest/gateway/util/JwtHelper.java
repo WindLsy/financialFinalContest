@@ -20,16 +20,7 @@ public class JwtHelper {
     private static String tokenSignKey = "financial";
 
 
-    /**
-     * 生成加密后的秘钥 secretKey
-     *
-     * @return
-     */
-    public static SecretKey generalKey() {
-        byte[] encodedKey = Base64.getDecoder().decode(tokenSignKey);
-        SecretKey key = new SecretKeySpec(encodedKey, 0, encodedKey.length, "AES");
-        return key;
-    }
+
 
     /**
      * 解析
@@ -39,9 +30,8 @@ public class JwtHelper {
      * @throws Exception
      */
     public static Claims parseJWT(String jwt) throws Exception {
-        SecretKey key = generalKey();
         return Jwts.parser()
-                .setSigningKey(key)
+                .setSigningKey(tokenSignKey)
                 .parseClaimsJws(jwt)
                 .getBody();
     }
