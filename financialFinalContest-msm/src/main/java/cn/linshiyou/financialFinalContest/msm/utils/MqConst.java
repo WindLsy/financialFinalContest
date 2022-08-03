@@ -1,4 +1,4 @@
-package cn.linshiyou.financialFinalContest.common.util.rabbitMQ;
+package cn.linshiyou.financialFinalContest.msm.utils;
 
 public class MqConst {
 

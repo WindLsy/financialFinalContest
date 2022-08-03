@@ -1,8 +1,8 @@
 package cn.linshiyou.financialFinalContest.msm.receiver;
 
-import cn.linshiyou.financialFinalContest.common.util.rabbitMQ.MqConst;
 import cn.linshiyou.financialFinalContest.msm.pojo.MsmVo;
 import cn.linshiyou.financialFinalContest.msm.service.MsmService;
+import cn.linshiyou.financialFinalContest.msm.utils.MqConst;
 import com.rabbitmq.client.Channel;
 import org.springframework.amqp.core.Message;
 import org.springframework.amqp.rabbit.annotation.Exchange;

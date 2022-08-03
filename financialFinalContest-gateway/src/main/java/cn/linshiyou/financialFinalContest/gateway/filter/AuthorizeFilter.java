@@ -37,6 +37,7 @@ public class AuthorizeFilter implements GlobalFilter {
         if (path.contains("/user/login")
                 || path.startsWith("/wx")
                 || path.startsWith("/search")
+                || path.startsWith("/codeState/list")
                 || path.startsWith("/msm/send")) {
             return chain.filter(exchange);
         }

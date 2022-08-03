@@ -1,9 +1,9 @@
 package cn.linshiyou.financialFinalContest.swap.service.impl;
 
 import cn.linshiyou.financialFinalContest.common.feign.User_MsmFeign;
-import cn.linshiyou.financialFinalContest.common.util.rabbitMQ.MqConst;
 import cn.linshiyou.financialFinalContest.common.service.RabbitService;
 import cn.linshiyou.financialFinalContest.msm.pojo.MsmVo;
+import cn.linshiyou.financialFinalContest.msm.utils.MqConst;
 import cn.linshiyou.financialFinalContest.swap.config.RabbitMQConfig;
 import cn.linshiyou.financialFinalContest.swap.dao.entity.Goods;
 import cn.linshiyou.financialFinalContest.swap.dao.entity.Swap;
