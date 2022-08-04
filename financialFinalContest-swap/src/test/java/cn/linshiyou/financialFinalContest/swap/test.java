@@ -18,16 +18,16 @@ public class test {
     @Test
     public void test(){
         List<Swap> list = new ArrayList<>();
-
-        Swap swap = new Swap();
-        swap.setUserAid(4651L);
-        list.add(swap);
-        swap.setUserAid(4651L);
-        list.add(swap);
-        swap.setUserAid(4651L);
-        list.add(swap);
-        swap.setUserAid(4651L);
-        list.add(swap);
+//
+//        Swap swap = new Swap();
+//        swap.setUserAid(4651L);
+//        list.add(swap);
+//        swap.setUserAid(4651L);
+//        list.add(swap);
+//        swap.setUserAid(4651L);
+//        list.add(swap);
+//        swap.setUserAid(4651L);
+//        list.add(swap);
 
         System.out.println(list.toString());
         System.out.println(JSON.toJSONString(list));
