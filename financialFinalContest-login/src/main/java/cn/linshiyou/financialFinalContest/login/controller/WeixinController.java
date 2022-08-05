@@ -7,7 +7,6 @@ import cn.linshiyou.financialFinalContest.login.util.ConstantWxPropertiesUtils;
 import cn.linshiyou.financialFinalContest.login.util.HttpClientUtils;
 import cn.linshiyou.financialFinalContest.login.util.JwtHelper;
 import com.alibaba.fastjson.JSONObject;
-import com.sun.deploy.net.URLEncoder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.StringUtils;
@@ -17,6 +16,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 
 import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.util.HashMap;
 import java.util.Map;
 
