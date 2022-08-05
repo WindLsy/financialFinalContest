@@ -2,6 +2,7 @@ package cn.linshiyou.financialFinalContest.swap.service;
 
 import cn.linshiyou.financialFinalContest.swap.dao.entity.Swap;
 import cn.linshiyou.financialFinalContest.swap.dao.entity.SwapBill;
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.github.pagehelper.Page;
 
@@ -45,4 +46,5 @@ public interface SwapService extends IService<Swap> {
      * @return
      */
     Page<SwapBill> selectByUserid(int startPage, int sizePage, Long userId);
+
 }

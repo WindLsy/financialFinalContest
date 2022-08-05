@@ -22,5 +22,13 @@ spring:
     host: 199.115.231.73
     port: 5672
 
+mybatis-plus:
+  configuration:
+    #日志打印到控制台
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+    map-underscore-to-camel-case: true
+  mapper-locations: classpath*:cn/linshiyou/financialFinalContest/swap/dao/mapper/xml/*.xml
+
+
 logging:
   config: classpath:log4j2.xml
