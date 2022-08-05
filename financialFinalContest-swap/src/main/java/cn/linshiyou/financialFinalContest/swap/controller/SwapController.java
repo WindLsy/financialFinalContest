@@ -7,10 +7,7 @@ import cn.linshiyou.financialFinalContest.swap.dao.entity.Swap;
 import cn.linshiyou.financialFinalContest.swap.dao.entity.SwapBill;
 import cn.linshiyou.financialFinalContest.swap.service.SwapBillService;
 import cn.linshiyou.financialFinalContest.swap.service.SwapService;
-import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
-import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.github.pagehelper.Page;
-import com.github.pagehelper.PageHelper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 

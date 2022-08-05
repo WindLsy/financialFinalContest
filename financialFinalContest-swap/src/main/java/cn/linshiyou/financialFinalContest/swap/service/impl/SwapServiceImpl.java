@@ -1,5 +1,7 @@
 package cn.linshiyou.financialFinalContest.swap.service.impl;
 
+import cn.linshiyou.financialFinalContest.common.feign.CodeStateFeign;
+import cn.linshiyou.financialFinalContest.common.pojo.Result;
 import cn.linshiyou.financialFinalContest.swap.config.RabbitMQConfig;
 import cn.linshiyou.financialFinalContest.swap.dao.entity.Goods;
 import cn.linshiyou.financialFinalContest.swap.dao.entity.Swap;
@@ -21,6 +23,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Date;
+import java.util.LinkedHashMap;
 import java.util.List;
 
 /**
@@ -45,6 +48,10 @@ public class SwapServiceImpl extends ServiceImpl<SwapMapper, Swap> implements Sw
 
     @Autowired
     private RabbitTemplate rabbitTemplate;
+
+
+    @Autowired
+    private CodeStateFeign codeStateFeign;
 
     /**
      * 交易第一阶段
@@ -176,6 +183,7 @@ public class SwapServiceImpl extends ServiceImpl<SwapMapper, Swap> implements Sw
                         .or()
                         .eq(SwapBill::getUserBid, userId)
                         .orderByAsc(SwapBill::getUpdateTime));
+
 
         return swapBills;
     }
