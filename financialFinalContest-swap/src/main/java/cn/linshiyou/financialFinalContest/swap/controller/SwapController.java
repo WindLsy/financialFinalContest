@@ -109,9 +109,7 @@ public class SwapController {
                               @RequestParam(value = "sizePage", defaultValue = "10") int sizePage,
                               @RequestParam Long userId){
 
-        PageHelper.startPage(startPage, sizePage);
         Page<SwapBill> swapBills = swapService.selectByUserid(startPage, sizePage, userId);
-
 
         return  Result.builder()
                 .flag(true)

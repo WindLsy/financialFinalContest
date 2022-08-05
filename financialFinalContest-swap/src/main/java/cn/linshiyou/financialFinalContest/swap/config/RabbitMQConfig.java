@@ -77,7 +77,7 @@ public class RabbitMQConfig {
     /**
      * 声明队列
      */
-    @Bean(SWAP_ONE_QUEUE)
+    @Bean(SWAP_TWO_QUEUE)
     public Queue SWAP_TWO_QUEUE(){
         return new Queue(SWAP_TWO_QUEUE);
     }
@@ -85,7 +85,7 @@ public class RabbitMQConfig {
     /**
      * 声明队列
      */
-    @Bean(SWAP_ONE_QUEUE)
+    @Bean(SWAP_THREE_QUEUE)
     public Queue SWAP_THREE_QUEUE(){
         return new Queue(SWAP_THREE_QUEUE);
     }

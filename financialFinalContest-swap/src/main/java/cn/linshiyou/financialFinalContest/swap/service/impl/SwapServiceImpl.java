@@ -1,9 +1,5 @@
 package cn.linshiyou.financialFinalContest.swap.service.impl;
 
-import cn.linshiyou.financialFinalContest.common.feign.User_MsmFeign;
-import cn.linshiyou.financialFinalContest.common.service.RabbitService;
-import cn.linshiyou.financialFinalContest.msm.pojo.MsmVo;
-import cn.linshiyou.financialFinalContest.msm.utils.MqConst;
 import cn.linshiyou.financialFinalContest.swap.config.RabbitMQConfig;
 import cn.linshiyou.financialFinalContest.swap.dao.entity.Goods;
 import cn.linshiyou.financialFinalContest.swap.dao.entity.Swap;
@@ -25,9 +21,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 /**
  * <p>
@@ -51,13 +45,6 @@ public class SwapServiceImpl extends ServiceImpl<SwapMapper, Swap> implements Sw
 
     @Autowired
     private RabbitTemplate rabbitTemplate;
-
-    @Autowired
-    private User_MsmFeign userFeign;
-
-    @Autowired
-    private RabbitService rabbitService;
-
 
     /**
      * 交易第一阶段
@@ -104,22 +91,6 @@ public class SwapServiceImpl extends ServiceImpl<SwapMapper, Swap> implements Sw
 
         SwapBill billData = swapBillMapper.selectById(swapBill.getId());
 
-        // 发送短信
-        MsmVo msmVo = new MsmVo();
-        Long id = billData.getUserAid();
-        String phone = userFeign.getPhone(id);
-        String name = userFeign.getName(id);
-        msmVo.setPhone(phone);
-        Map<String,Object> param = new HashMap<String,Object>(){{
-            put("name", name);
-            put("description", billData.getDescription());
-            put("status", "remid");
-        }};
-        msmVo.setParam(param);
-        rabbitService.sendMessage(MqConst.EXCHANGE_DIRECT_MSM, MqConst.ROUTING_MSM_ITEM, msmVo);
-
-
-
         swapBill.setUpdateTime(new Date());
         swapBillMapper.update(swapBill, new LambdaUpdateWrapper<SwapBill>()
                 .eq(SwapBill::getId, swapBill.getId())
@@ -137,6 +108,8 @@ public class SwapServiceImpl extends ServiceImpl<SwapMapper, Swap> implements Sw
         swapMq.setSwaps(swaps);
 
         String swapListJson = JSON.toJSONString(swapMq);
+
+
         // 发送到MQ
         rabbitTemplate.convertAndSend(RabbitMQConfig.SWAP_TWO_QUEUE, swapListJson);
 
@@ -197,15 +170,14 @@ public class SwapServiceImpl extends ServiceImpl<SwapMapper, Swap> implements Sw
     public Page<SwapBill> selectByUserid(int startPage, int sizePage, Long userId) {
 
         PageHelper.startPage(startPage, sizePage);
-        List<SwapBill> swapBills = swapBillMapper.selectList(
+        Page<SwapBill> swapBills = (Page<SwapBill>) swapBillMapper.selectList(
                 new LambdaQueryWrapper<SwapBill>()
                         .eq(SwapBill::getUserAid, userId)
                         .or()
                         .eq(SwapBill::getUserBid, userId)
                         .orderByAsc(SwapBill::getUpdateTime));
-        Page<SwapBill> swapBillPage = (Page<SwapBill>) swapBills;
 
-        return swapBillPage;
+        return swapBills;
     }
 
 
