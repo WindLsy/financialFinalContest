@@ -1,8 +1,11 @@
 package cn.linshiyou.financialFinalContest.msm.receiver;
 
+import cn.linshiyou.financialFinalContest.msm.config.RabbitMQConfig;
 import cn.linshiyou.financialFinalContest.msm.pojo.MsmVo;
+import cn.linshiyou.financialFinalContest.msm.pojo.SwapMq;
 import cn.linshiyou.financialFinalContest.msm.service.MsmService;
 import cn.linshiyou.financialFinalContest.msm.utils.MqConst;
+import com.alibaba.fastjson.JSON;
 import com.rabbitmq.client.Channel;
 import org.springframework.amqp.core.Message;
 import org.springframework.amqp.rabbit.annotation.Exchange;
@@ -26,4 +29,20 @@ public class MsmReceiver {
     public void send(MsmVo msmVo, Message message, Channel channel) {
         smsService.send(msmVo);
     }
+
+    /**
+     * 交易第一阶段
+     */
+    @RabbitListener(queues = RabbitMQConfig.SWAP_ONE_QUEUE)
+    public void receiveDeleteMessage(String  id){
+
+        SwapMq swapMq = JSON.parseObject(id, SwapMq.class);
+
+    }
+
+
+
+
+
+
 }
