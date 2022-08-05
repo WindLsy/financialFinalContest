@@ -32,3 +32,10 @@ mybatis-plus:
 
 logging:
   config: classpath:log4j2.xml
+
+# 不加配置可能出错
+pagehelper:
+  helper-dialect: mysql
+  reasonable: true
+  support-methods-arguments: true
+  params: count=countSql
