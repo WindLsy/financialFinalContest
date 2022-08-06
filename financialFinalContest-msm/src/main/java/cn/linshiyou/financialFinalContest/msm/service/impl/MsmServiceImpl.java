@@ -78,15 +78,21 @@ public class MsmServiceImpl implements MsmService {
         String description = (String) param.get("description");
 
         String templateId;
-        if (param.get("status") != null) {
-            // 就诊提醒短信
+        if (param.get("status").equals(3)) {
+            // 交易者发起交易，短信提醒被交易者
             templateId = "4293caf6812646168481f03a6fb938f8";
-        } else if (param.get("yuyue") != null) {
-            // 预约成功短信
-            templateId = "";
+        } else if (param.get("status").equals(6)) {
+            // 被交易者拒绝 ok
+            templateId = "84ccc82133ad430bb69839c5297ee65e";
+        } else if (param.get("status").equals(4)) {
+            // 被交易者同意，需要被交易者确认
+            templateId = "6076cb97ffaf46288f5987f64b0d5049";
+        } else if (param.get("status").equals(7)) {
+            // 交易者取消交换 ok
+            templateId = "1e1290cbc82f4e3680bb9650fabfde3b";
         } else {
-            // 取消预约成功短信
-            templateId = "";
+            // 交易者确认交换，交换成功 ok
+            templateId = "aab1299eb8774da5bbcb0c837e8c4213";
         }
 
         String host = "https://gyytz.market.alicloudapi.com";

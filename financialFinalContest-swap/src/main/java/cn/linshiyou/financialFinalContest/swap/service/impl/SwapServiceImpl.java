@@ -77,11 +77,13 @@ public class SwapServiceImpl extends ServiceImpl<SwapMapper, Swap> implements Sw
             swapMapper.insert(swap);
         }
 
+
         // MQ消息体
         SwapMq swapMq = new SwapMq();
         swapMq.setDescription(description);
         swapMq.setUserAid(userAId);
         swapMq.setUserBid(userBId);
+        swapMq.setStatusId(3);
         swapMq.setSwaps(swaps);
         String swapListJson = JSON.toJSONString(swapMq);
         // 发送到MQ
@@ -113,6 +115,7 @@ public class SwapServiceImpl extends ServiceImpl<SwapMapper, Swap> implements Sw
         swapMq.setDescription(billData.getDescription());
         swapMq.setUserAid(billData.getUserAid());
         swapMq.setUserBid(billData.getUserBid());
+        swapMq.setStatusId(billData.getStatusId());
         swapMq.setSwaps(swaps);
 
         String swapListJson = JSON.toJSONString(swapMq);

@@ -38,8 +38,13 @@ public class AuthorizeFilter implements GlobalFilter {
                 || path.startsWith("/wx")
                 || path.startsWith("/search")
                 || path.startsWith("/codeState/list")
+                || path.startsWith("/msm/send")
+                || path.startsWith("/swap/inone")
+                || path.startsWith("/swap/intwo")
+                || path.startsWith("/swap/inthree")
                 || path.startsWith("/file/upload")
-                || path.startsWith("/msm/send")) {
+                ) {
+
             return chain.filter(exchange);
         }
         HttpHeaders headers = request.getHeaders();

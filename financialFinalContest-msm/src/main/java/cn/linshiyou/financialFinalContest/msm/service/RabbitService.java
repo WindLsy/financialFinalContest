@@ -1,4 +1,4 @@
-package cn.linshiyou.financialFinalContest.common.service;
+package cn.linshiyou.financialFinalContest.msm.service;
 
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
