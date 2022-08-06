@@ -43,4 +43,11 @@ public interface GoodsService extends IService<Goods> {
      * @return
      */
     List<Goods> getLeastContainer(Long userId, Double price);
+
+    /**
+     * 根据list id返回DTO
+     * @param listId
+     * @return
+     */
+    List<GoodsDTO> listGoodDTOByIds(List<Long> listId);
 }

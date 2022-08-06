@@ -18,4 +18,16 @@
         id, user_Aid, user_Bid, description, create_time, update_time, status_id
     </sql>
 
+    <select id="selectByUserid" resultType="cn.linshiyou.financialFinalContest.swap.dao.vo.SwapBillVo">
+
+        SELECT
+            swap_bill.*,
+            user_info.phone userBPhone
+        FROM swap_bill
+                 LEFT JOIN user_info
+                           ON user_info.id = swap_bill.user_Bid
+        WHERE swap_bill.user_Aid = #{userId} OR swap_bill.user_Bid = #{userId}
+        ORDER BY swap_bill.update_time ASC
+    </select>
+
 </mapper>

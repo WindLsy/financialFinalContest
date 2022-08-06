@@ -1,6 +1,5 @@
 package cn.linshiyou.financialFinalContest.common.feign;
 
-import cn.linshiyou.financialFinalContest.common.pojo.Result;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;

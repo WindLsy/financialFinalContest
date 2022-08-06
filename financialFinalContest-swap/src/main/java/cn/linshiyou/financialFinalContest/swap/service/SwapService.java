@@ -2,7 +2,8 @@ package cn.linshiyou.financialFinalContest.swap.service;
 
 import cn.linshiyou.financialFinalContest.swap.dao.entity.Swap;
 import cn.linshiyou.financialFinalContest.swap.dao.entity.SwapBill;
-import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import cn.linshiyou.financialFinalContest.swap.dao.vo.GoodsDTO;
+import cn.linshiyou.financialFinalContest.swap.dao.vo.SwapBillVo;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.github.pagehelper.Page;
 
@@ -45,6 +46,12 @@ public interface SwapService extends IService<Swap> {
      * @param userId
      * @return
      */
-    Page<SwapBill> selectByUserid(int startPage, int sizePage, Long userId);
+    Page<SwapBillVo> selectByUserid(int startPage, int sizePage, Long userId);
 
+    /**
+     * 具体交易物品
+     * @param swapBillId
+     * @return
+     */
+    List<GoodsDTO> selectSwapLit(Long swapBillId);
 }

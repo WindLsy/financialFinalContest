@@ -122,5 +122,13 @@ public class GoodsController {
                 .build();
     }
 
+    @GetMapping("/getGoods")
+    public List<GoodsDTO> getGoods(@RequestParam List<Long> listId){
+
+        List<GoodsDTO> goodsDTOS = goodsService.listGoodDTOByIds(listId);
+
+        return goodsDTOS;
+    }
+
 }
 

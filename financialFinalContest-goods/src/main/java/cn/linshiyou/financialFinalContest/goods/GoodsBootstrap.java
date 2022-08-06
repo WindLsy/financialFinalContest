@@ -10,7 +10,7 @@ import org.springframework.cloud.openfeign.EnableFeignClients;
  * @Description:
  */
 @SpringBootApplication
-@EnableFeignClients(basePackages = "cn.linshiyou.financialFinalContest.common")
+@EnableFeignClients(basePackages = "cn.linshiyou.financialFinalContest")
 @MapperScan(basePackages={"cn.linshiyou.financialFinalContest.goods.dao.mapper"})
 public class GoodsBootstrap {
 

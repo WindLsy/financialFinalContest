@@ -3,6 +3,8 @@ package cn.linshiyou.financialFinalContest.swap.dao.entity;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
@@ -29,18 +31,21 @@ public class SwapBill implements Serializable {
      * 交换列表id
      */
     @TableId(value = "id", type = IdType.ASSIGN_ID)
+    @JsonSerialize(using= ToStringSerializer.class)
     private Long id;
 
     /**
      * 用户Aid
      */
     @TableField("user_Aid")
+    @JsonSerialize(using= ToStringSerializer.class)
     private Long userAid;
 
     /**
      * 用户Bid
      */
     @TableField("user_Bid")
+    @JsonSerialize(using= ToStringSerializer.class)
     private Long userBid;
 
     /**

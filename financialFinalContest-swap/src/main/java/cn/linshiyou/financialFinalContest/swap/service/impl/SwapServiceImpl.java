@@ -8,6 +8,9 @@ import cn.linshiyou.financialFinalContest.swap.dao.entity.SwapMq;
 import cn.linshiyou.financialFinalContest.swap.dao.mapper.GoodsMapper;
 import cn.linshiyou.financialFinalContest.swap.dao.mapper.SwapBillMapper;
 import cn.linshiyou.financialFinalContest.swap.dao.mapper.SwapMapper;
+import cn.linshiyou.financialFinalContest.swap.dao.vo.GoodsDTO;
+import cn.linshiyou.financialFinalContest.swap.dao.vo.SwapBillVo;
+import cn.linshiyou.financialFinalContest.swap.feign.GoodsFeign;
 import cn.linshiyou.financialFinalContest.swap.service.SwapService;
 import com.alibaba.fastjson.JSON;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
@@ -20,6 +23,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -45,6 +49,10 @@ public class SwapServiceImpl extends ServiceImpl<SwapMapper, Swap> implements Sw
 
     @Autowired
     private RabbitTemplate rabbitTemplate;
+
+    @Autowired
+    private GoodsFeign goodsFeign;
+
 
     /**
      * 交易第一阶段
@@ -170,17 +178,30 @@ public class SwapServiceImpl extends ServiceImpl<SwapMapper, Swap> implements Sw
      * @return
      */
     @Override
-    public Page<SwapBill> selectByUserid(int startPage, int sizePage, Long userId) {
+    public Page<SwapBillVo> selectByUserid(int startPage, int sizePage, Long userId) {
 
         PageHelper.startPage(startPage, sizePage);
-        Page<SwapBill> swapBills = (Page<SwapBill>) swapBillMapper.selectList(
-                new LambdaQueryWrapper<SwapBill>()
-                        .eq(SwapBill::getUserAid, userId)
-                        .or()
-                        .eq(SwapBill::getUserBid, userId)
-                        .orderByAsc(SwapBill::getUpdateTime));
+        Page<SwapBillVo> swapBillVos = (Page<SwapBillVo>) swapBillMapper.selectByUserid(userId);
+//        Page<SwapBill> swapBills = (Page<SwapBill>) swapBillMapper.selectList(
+//                new LambdaQueryWrapper<SwapBill>()
+//                        .eq(SwapBill::getUserAid, userId)
+//                        .or()
+//                        .eq(SwapBill::getUserBid, userId)
+//                        .orderByAsc(SwapBill::getUpdateTime));
 
-        return swapBills;
+
+        return swapBillVos;
+    }
+
+    @Override
+    public List<GoodsDTO> selectSwapLit(Long swapBillId) {
+        List<Swap> swapList = swapMapper.selectList(new LambdaQueryWrapper<Swap>().eq(Swap::getListId, swapBillId));
+        List<Long> longs = new ArrayList<>();
+        swapList.forEach(swap -> longs.add(swap.getGoodId()));
+        List<GoodsDTO> goodsDTOList = goodsFeign.getGoods(longs);
+
+
+        return goodsDTOList;
     }
 
 

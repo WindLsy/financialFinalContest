@@ -165,6 +165,18 @@ public class GoodsServiceImpl extends ServiceImpl<GoodsMapper, Goods> implements
         return goodsList;
     }
 
+    @Override
+    public List<GoodsDTO> listGoodDTOByIds(List<Long> listId) {
+        List<Goods> goodsList = goodsMapper.selectBatchIds(listId);
+        List<GoodsDTO> goodsDTOList = new ArrayList<>();
+
+        for (int i=0; i<goodsList.size(); i++){
+            goodsDTOList.add(goodsToDTO(goodsList.get(i)));
+        }
+
+        return goodsDTOList;
+    }
+
     /**
      * 根据id删除
      * @param id

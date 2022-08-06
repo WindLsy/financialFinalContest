@@ -5,12 +5,11 @@ import cn.linshiyou.financialFinalContest.common.pojo.Result;
 import cn.linshiyou.financialFinalContest.common.pojo.StatusCode;
 import cn.linshiyou.financialFinalContest.swap.dao.entity.Swap;
 import cn.linshiyou.financialFinalContest.swap.dao.entity.SwapBill;
+import cn.linshiyou.financialFinalContest.swap.dao.vo.GoodsDTO;
+import cn.linshiyou.financialFinalContest.swap.dao.vo.SwapBillVo;
 import cn.linshiyou.financialFinalContest.swap.service.SwapBillService;
 import cn.linshiyou.financialFinalContest.swap.service.SwapService;
-import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
-import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.github.pagehelper.Page;
-import com.github.pagehelper.PageHelper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -109,7 +108,7 @@ public class SwapController {
                               @RequestParam(value = "sizePage", defaultValue = "10") int sizePage,
                               @RequestParam Long userId){
 
-        Page<SwapBill> swapBills = swapService.selectByUserid(startPage, sizePage, userId);
+        Page<SwapBillVo> swapBills = swapService.selectByUserid(startPage, sizePage, userId);
 
         return  Result.builder()
                 .flag(true)
@@ -118,5 +117,21 @@ public class SwapController {
                 .message("查询成功")
                 .build();
     }
+
+    @GetMapping("/getSwapList")
+    public Result getSwapList(@RequestParam Long swapBillId){
+
+//        Page<SwapBillVo> swapBills = swapService.selectByUserid(startPage, sizePage, userId);
+
+        List<GoodsDTO> goodsDTOS = swapService.selectSwapLit(swapBillId);
+
+        return  Result.builder()
+                .flag(true)
+                .code(StatusCode.OK)
+                .data(goodsDTOS)
+                .message("查询成功")
+                .build();
+    }
+
 
 }

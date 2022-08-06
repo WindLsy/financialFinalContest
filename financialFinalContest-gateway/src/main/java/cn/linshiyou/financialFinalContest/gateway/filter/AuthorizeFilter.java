@@ -44,6 +44,7 @@ public class AuthorizeFilter implements GlobalFilter {
                 || path.startsWith("/swap/inthree")
                 || path.startsWith("/file/upload")
                 ) {
+
             return chain.filter(exchange);
         }
         HttpHeaders headers = request.getHeaders();

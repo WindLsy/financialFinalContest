@@ -25,3 +25,6 @@ spring:
     url: jdbc:mysql://txyun5.linshiyou.cn:3306/financial_final_contest?useUnicode=true&characterEncoding=utf-8&useSSL=false&serverTimezone=GMT
     username: zzh
     password: zzh
+
+logging:
+  config: classpath:log4j2.xml
