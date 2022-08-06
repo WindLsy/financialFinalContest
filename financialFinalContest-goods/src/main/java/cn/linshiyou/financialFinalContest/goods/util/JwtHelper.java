@@ -10,7 +10,7 @@ public class JwtHelper {
     // 过期时间
     private static long tokenExpiration = 24 * 60 * 60 * 1000;
     // 签名秘钥
-    private static String tokenSignKey = "123456";
+    private static String tokenSignKey = "financial";
 
     // 根据参数生成token
     public static String createToken(Long userId, String userName) {

@@ -35,4 +35,9 @@ public class SwapMq {
      * 物品列表
      */
     private List<Swap> swaps;
+
+    /**
+     * 交易状态
+     */
+    private int statusId;
 }
