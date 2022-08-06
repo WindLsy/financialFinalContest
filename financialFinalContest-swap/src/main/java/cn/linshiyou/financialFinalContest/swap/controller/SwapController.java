@@ -5,6 +5,7 @@ import cn.linshiyou.financialFinalContest.common.pojo.Result;
 import cn.linshiyou.financialFinalContest.common.pojo.StatusCode;
 import cn.linshiyou.financialFinalContest.swap.dao.entity.Swap;
 import cn.linshiyou.financialFinalContest.swap.dao.entity.SwapBill;
+import cn.linshiyou.financialFinalContest.swap.dao.vo.SwapBillVo;
 import cn.linshiyou.financialFinalContest.swap.service.SwapBillService;
 import cn.linshiyou.financialFinalContest.swap.service.SwapService;
 import com.github.pagehelper.Page;
@@ -106,7 +107,7 @@ public class SwapController {
                               @RequestParam(value = "sizePage", defaultValue = "10") int sizePage,
                               @RequestParam Long userId){
 
-        Page<SwapBill> swapBills = swapService.selectByUserid(startPage, sizePage, userId);
+        Page<SwapBillVo> swapBills = swapService.selectByUserid(startPage, sizePage, userId);
 
         return  Result.builder()
                 .flag(true)

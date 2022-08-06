@@ -30,5 +30,12 @@ public interface CodeStateFeign {
     @GetMapping("/{id}")
     Result getById(@PathVariable("id") int id);
 
+    /**
+     * 根据类型id查询所有状态
+     * @param type_id 类型type_id
+     * @return List<CodeStateDTO>
+     */
+    @GetMapping("/list/{type_id}")
+    Result getByTypeId(int type_id);
 
 }

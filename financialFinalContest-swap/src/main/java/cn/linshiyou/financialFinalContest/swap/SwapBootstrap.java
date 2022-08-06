@@ -10,7 +10,6 @@ import org.springframework.context.annotation.ComponentScan;
 @SpringBootApplication
 @MapperScan(basePackages={"cn.linshiyou.financialFinalContest.swap.dao.mapper"})
 @EnableFeignClients(basePackages = "cn.linshiyou.financialFinalContest.common")
-@ComponentScan(basePackages = {"cn.linshiyou"})
 public class SwapBootstrap {
 
     public static void main(String[] args) {
