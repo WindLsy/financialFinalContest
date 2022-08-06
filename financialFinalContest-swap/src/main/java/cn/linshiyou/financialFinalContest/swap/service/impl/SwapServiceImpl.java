@@ -1,6 +1,5 @@
 package cn.linshiyou.financialFinalContest.swap.service.impl;
 
-import cn.linshiyou.financialFinalContest.common.feign.User_MsmFeign;
 import cn.linshiyou.financialFinalContest.swap.config.RabbitMQConfig;
 import cn.linshiyou.financialFinalContest.swap.dao.entity.Goods;
 import cn.linshiyou.financialFinalContest.swap.dao.entity.Swap;
@@ -9,7 +8,9 @@ import cn.linshiyou.financialFinalContest.swap.dao.entity.SwapMq;
 import cn.linshiyou.financialFinalContest.swap.dao.mapper.GoodsMapper;
 import cn.linshiyou.financialFinalContest.swap.dao.mapper.SwapBillMapper;
 import cn.linshiyou.financialFinalContest.swap.dao.mapper.SwapMapper;
+import cn.linshiyou.financialFinalContest.swap.dao.vo.GoodsDTO;
 import cn.linshiyou.financialFinalContest.swap.dao.vo.SwapBillVo;
+import cn.linshiyou.financialFinalContest.swap.feign.GoodsFeign;
 import cn.linshiyou.financialFinalContest.swap.service.SwapService;
 import com.alibaba.fastjson.JSON;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
@@ -22,6 +23,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -48,9 +50,9 @@ public class SwapServiceImpl extends ServiceImpl<SwapMapper, Swap> implements Sw
     @Autowired
     private RabbitTemplate rabbitTemplate;
 
-
     @Autowired
-    private User_MsmFeign user_msmFeign;
+    private GoodsFeign goodsFeign;
+
 
     /**
      * 交易第一阶段
@@ -186,6 +188,17 @@ public class SwapServiceImpl extends ServiceImpl<SwapMapper, Swap> implements Sw
 
 
         return swapBillVos;
+    }
+
+    @Override
+    public List<GoodsDTO> selectSwapLit(Long swapBillId) {
+        List<Swap> swapList = swapMapper.selectList(new LambdaQueryWrapper<Swap>().eq(Swap::getListId, swapBillId));
+        List<Long> longs = new ArrayList<>();
+        swapList.forEach(swap -> longs.add(swap.getGoodId()));
+        List<GoodsDTO> goodsDTOList = goodsFeign.getGoods(longs);
+
+
+        return goodsDTOList;
     }
 
 

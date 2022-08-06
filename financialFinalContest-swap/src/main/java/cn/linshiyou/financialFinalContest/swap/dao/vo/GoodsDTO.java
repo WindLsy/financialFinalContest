@@ -1,7 +1,5 @@
-package cn.linshiyou.financialFinalContest.swap.dao.entity;
+package cn.linshiyou.financialFinalContest.swap.dao.vo;
 
-import com.baomidou.mybatisplus.annotation.IdType;
-import com.baomidou.mybatisplus.annotation.TableId;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
 import lombok.Data;
@@ -12,7 +10,7 @@ import java.io.Serializable;
 
 /**
  * <p>
- * 
+ *
  * </p>
  *
  * @author LJ
@@ -21,21 +19,20 @@ import java.io.Serializable;
 @Data
 @EqualsAndHashCode(callSuper = false)
 @Accessors(chain = true)
-public class Goods implements Serializable {
+public class GoodsDTO implements Serializable {
 
     private static final long serialVersionUID=1L;
 
     /**
      * 主键
      */
-    @TableId(value = "id", type = IdType.ASSIGN_ID)
     @JsonSerialize(using= ToStringSerializer.class)
     private Long id;
 
     /**
      * 用户id
      */
-    @JsonSerialize(using= ToStringSerializer.class)
+    @JsonSerialize(using=ToStringSerializer.class)
     private Long userId;
 
     /**
@@ -47,6 +44,13 @@ public class Goods implements Serializable {
      * 类型id
      */
     private Integer typeId;
+
+
+    /**
+     * 类型名称
+     */
+    private String typeName;
+
 
     /**
      * 物品价值
@@ -66,6 +70,11 @@ public class Goods implements Serializable {
      * 物品状态id
      */
     private Integer statusId;
+
+    /**
+     * 物品状态
+     */
+    private String statusName;
 
 
 }

@@ -27,7 +27,7 @@ public class GoodsInfo implements Serializable {
      */
     @Id
     @Field(index = true, store = true, type = FieldType.Keyword)
-    @JsonSerialize(using=ToStringSerializer.class)
+    @JsonSerialize(using= ToStringSerializer.class)
     private Long id;
 
     /**
