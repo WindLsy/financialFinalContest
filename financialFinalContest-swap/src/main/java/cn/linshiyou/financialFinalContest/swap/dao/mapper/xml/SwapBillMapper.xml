@@ -19,13 +19,15 @@
     </sql>
 
     <select id="selectByUserid" resultType="cn.linshiyou.financialFinalContest.swap.dao.vo.SwapBillVo">
-
         SELECT
             swap_bill.*,
-            user_info.phone userBPhone
+            a.phone userAPhone,
+            b.phone userBPhone
         FROM swap_bill
-                 LEFT JOIN user_info
-                           ON user_info.id = swap_bill.user_Bid
+        LEFT JOIN user_info a
+           ON a.id = swap_bill.user_Aid
+        LEFT JOIN user_info b
+           ON b.id = swap_bill.user_Bid
         WHERE swap_bill.user_Aid = #{userId} OR swap_bill.user_Bid = #{userId}
         ORDER BY swap_bill.update_time ASC
     </select>

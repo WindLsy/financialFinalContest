@@ -118,6 +118,11 @@ public class SwapController {
                 .build();
     }
 
+    /**
+     * 具体交易记录
+     * @param swapBillId
+     * @return
+     */
     @GetMapping("/getSwapList")
     public Result getSwapList(@RequestParam Long swapBillId){
 
