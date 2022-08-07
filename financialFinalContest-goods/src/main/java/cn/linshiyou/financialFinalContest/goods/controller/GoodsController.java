@@ -81,7 +81,6 @@ public class GoodsController {
         return Result.builder()
                 .flag(true)
                 .code(StatusCode.OK)
-                .data(good)
                 .message("修改成功")
                 .build();
     }

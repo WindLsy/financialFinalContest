@@ -149,11 +149,11 @@ public class SwapServiceImpl extends ServiceImpl<SwapMapper, Swap> implements Sw
             Goods goods = new Goods();
             goods.setId(swap.getGoodId());
             goods.setUserId(swap.getUserFinalId());
-
             goodsMapper.update(goods, new LambdaUpdateWrapper<Goods>()
                     .eq(Goods::getId, goods.getId())
                     .set(Goods::getUserId, goods.getUserId())
                     .set(Goods::getStatusId, 13));
+            // TODO 在ES中设置下架，在redis中设置下架
         }
 
         // MQ消息体

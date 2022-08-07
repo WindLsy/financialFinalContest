@@ -125,7 +125,6 @@ public class GoodsServiceImpl extends ServiceImpl<GoodsMapper, Goods> implements
             stringRedisTemplate.opsForValue().set(Constant.REDIS_PRE+goodsDTO.getId(), goodsDTOString);
             stringRedisTemplate.expire(Constant.REDIS_PRE+ id, Constant.REDIS_EXPIRE, TimeUnit.HOURS);
         }
-
         return goodsDTO;
     }
 
@@ -165,6 +164,11 @@ public class GoodsServiceImpl extends ServiceImpl<GoodsMapper, Goods> implements
         return goodsList;
     }
 
+    /**
+     * 根据list id返回DTO
+     * @param listId
+     * @return
+     */
     @Override
     public List<GoodsDTO> listGoodDTOByIds(List<Long> listId) {
         List<Goods> goodsList = goodsMapper.selectBatchIds(listId);
