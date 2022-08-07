@@ -5,7 +5,6 @@ import cn.linshiyou.financialFinalContest.swap.dao.entity.Goods;
 import cn.linshiyou.financialFinalContest.swap.dao.entity.Swap;
 import cn.linshiyou.financialFinalContest.swap.dao.entity.SwapBill;
 import cn.linshiyou.financialFinalContest.swap.dao.entity.SwapMq;
-import cn.linshiyou.financialFinalContest.swap.dao.mapper.GoodsMapper;
 import cn.linshiyou.financialFinalContest.swap.dao.mapper.SwapBillMapper;
 import cn.linshiyou.financialFinalContest.swap.dao.mapper.SwapMapper;
 import cn.linshiyou.financialFinalContest.swap.dao.vo.GoodsDTO;
@@ -18,13 +17,16 @@ import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
+import io.seata.spring.annotation.GlobalTransactional;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.LinkedHashMap;
 import java.util.List;
 
 /**
@@ -44,8 +46,6 @@ public class SwapServiceImpl extends ServiceImpl<SwapMapper, Swap> implements Sw
     @Autowired
     private SwapBillMapper swapBillMapper;
 
-    @Autowired
-    private GoodsMapper goodsMapper;
 
     @Autowired
     private RabbitTemplate rabbitTemplate;
@@ -62,21 +62,25 @@ public class SwapServiceImpl extends ServiceImpl<SwapMapper, Swap> implements Sw
     @Override
     public void stageOneSwap(Long userAId, Long userBId, List<Swap> swaps) {
 
-        SwapBill swapList = new SwapBill();
-        swapList.setStatusId(3);
-        swapList.setCreateTime(new Date());
-        swapList.setUpdateTime(new Date());
-        swapList.setUserAid(userAId);
-        swapList.setUserBid(userBId);
-        String description =  goodsMapper.selectById(swaps.get(0).getGoodId()).getName()+"等物品";
-        swapList.setDescription(description);
-        swapBillMapper.insert(swapList);
+        SwapBill swapBill = new SwapBill();
+        swapBill.setStatusId(3);
+        swapBill.setCreateTime(new Date());
+        swapBill.setUpdateTime(new Date());
+        swapBill.setUserAid(userAId);
+        swapBill.setUserBid(userBId);
+        //根据id获取物品名称
+        LinkedHashMap<String, String> data = (LinkedHashMap<String, String>) goodsFeign.getById(swaps.get(0).getGoodId()).getData();
+        String description =  data.get("name")+"等物品";
+        swapBill.setDescription(description);
+        swapBillMapper.insert(swapBill);
 
         for (Swap swap: swaps){
-            swap.setListId(swapList.getId());
+            swap.setListId(swapBill.getId());
             swapMapper.insert(swap);
         }
 
+        // 对所有参与交换的物品进行冻结
+        changeGoodsStatus(15, swapBill);
 
         // MQ消息体
         SwapMq swapMq = new SwapMq();
@@ -107,8 +111,14 @@ public class SwapServiceImpl extends ServiceImpl<SwapMapper, Swap> implements Sw
                 .set(SwapBill::getStatusId, swapBill.getStatusId())
                 .set(SwapBill::getUpdateTime, swapBill.getUpdateTime()));
 
-        // MQ消息体
+        List<Swap> swapList = swapMapper.selectList(new LambdaQueryWrapper<Swap>().eq(Swap::getListId, swapBill.getId()));
 
+        // 如果拒绝，则对所有物品进行解冻
+        if (swapBill.getStatusId()==6){
+            changeGoodsStatus(12, swapBill);
+        }
+
+        // MQ消息体
         List<Swap> swaps = swapMapper.selectList(new LambdaQueryWrapper<Swap>()
                 .eq(Swap::getListId, swapBill.getId()));
         SwapMq swapMq = new SwapMq();
@@ -117,9 +127,7 @@ public class SwapServiceImpl extends ServiceImpl<SwapMapper, Swap> implements Sw
         swapMq.setUserBid(billData.getUserBid());
         swapMq.setStatusId(billData.getStatusId());
         swapMq.setSwaps(swaps);
-
         String swapListJson = JSON.toJSONString(swapMq);
-
 
         // 发送到MQ
         rabbitTemplate.convertAndSend(RabbitMQConfig.SWAP_TWO_QUEUE, swapListJson);
@@ -128,10 +136,11 @@ public class SwapServiceImpl extends ServiceImpl<SwapMapper, Swap> implements Sw
 
     /**
      * 交易第三阶段
+     * 使用XA分布式事务
      * @param swapList
      */
     @Override
-    @Transactional
+    @GlobalTransactional
     public void stageThreeSwap(SwapBill swapBill) {
 
         swapBill.setStatusId(5);
@@ -149,11 +158,9 @@ public class SwapServiceImpl extends ServiceImpl<SwapMapper, Swap> implements Sw
             Goods goods = new Goods();
             goods.setId(swap.getGoodId());
             goods.setUserId(swap.getUserFinalId());
-            goodsMapper.update(goods, new LambdaUpdateWrapper<Goods>()
-                    .eq(Goods::getId, goods.getId())
-                    .set(Goods::getUserId, goods.getUserId())
-                    .set(Goods::getStatusId, 13));
-            // TODO 在ES中设置下架，在redis中设置下架
+            goods.setStatusId(13);
+
+            goodsFeign.updateById(goods);
         }
 
         // MQ消息体
@@ -182,17 +189,15 @@ public class SwapServiceImpl extends ServiceImpl<SwapMapper, Swap> implements Sw
 
         PageHelper.startPage(startPage, sizePage);
         Page<SwapBillVo> swapBillVos = (Page<SwapBillVo>) swapBillMapper.selectByUserid(userId);
-//        Page<SwapBill> swapBills = (Page<SwapBill>) swapBillMapper.selectList(
-//                new LambdaQueryWrapper<SwapBill>()
-//                        .eq(SwapBill::getUserAid, userId)
-//                        .or()
-//                        .eq(SwapBill::getUserBid, userId)
-//                        .orderByAsc(SwapBill::getUpdateTime));
-
 
         return swapBillVos;
     }
 
+    /**
+     * 查询具体交易物品
+     * @param swapBillId
+     * @return
+     */
     @Override
     public List<GoodsDTO> selectSwapLit(Long swapBillId) {
         List<Swap> swapList = swapMapper.selectList(new LambdaQueryWrapper<Swap>().eq(Swap::getListId, swapBillId));
@@ -200,8 +205,25 @@ public class SwapServiceImpl extends ServiceImpl<SwapMapper, Swap> implements Sw
         swapList.forEach(swap -> longs.add(swap.getGoodId()));
         List<GoodsDTO> goodsDTOList = goodsFeign.getGoods(longs);
 
-
         return goodsDTOList;
+    }
+
+    /**
+     * 更改物品状态
+     * @param statusId
+     */
+    private void changeGoodsStatus(int statusId, SwapBill swapBill){
+
+        List<Swap> swapList = swapMapper.selectList(new LambdaQueryWrapper<Swap>().eq(Swap::getListId, swapBill.getId()));
+
+        // 如果拒绝，则对所有物品进行解冻
+        for (Swap swap: swapList){
+            Goods goods = new Goods();
+            goods.setId(swap.getGoodId());
+            goods.setStatusId(statusId);
+            goodsFeign.updateById(goods);
+        }
+
     }
 
 

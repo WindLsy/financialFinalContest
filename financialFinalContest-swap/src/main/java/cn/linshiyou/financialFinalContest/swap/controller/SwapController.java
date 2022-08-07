@@ -31,8 +31,6 @@ public class SwapController {
     @Autowired
     private SwapService swapService;
 
-    @Autowired
-    private SwapBillService swapBillService;
 
     /**
      * 交换第一阶段

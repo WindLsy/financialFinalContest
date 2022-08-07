@@ -13,6 +13,7 @@ import cn.linshiyou.financialFinalContest.goods.util.Constant;
 import cn.linshiyou.financialFinalContest.goods.util.UserUtil;
 import com.alibaba.fastjson.JSON;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
@@ -86,7 +87,23 @@ public class GoodsServiceImpl extends ServiceImpl<GoodsMapper, Goods> implements
     @Override
     public boolean updateById(Goods good) {
 
-        goodsMapper.updateById(good);
+        LambdaUpdateWrapper<Goods> updateWrapper = new LambdaUpdateWrapper<>();
+        updateWrapper.eq(Goods::getId, good.getId());
+        if (!StringUtils.isEmpty(good.getDescription())){
+            updateWrapper.set(Goods::getDescription, good.getDescription());
+        }else if (good.getPrice()!=null){
+            updateWrapper.set(Goods::getPrice, good.getPrice());
+        }else if (good.getStatusId()!=null){
+            updateWrapper.set(Goods::getStatusId, good.getStatusId());
+        }else if (good.getUserId()!=null){
+            updateWrapper.set(Goods::getUserId, good.getUserId());
+        }else if (good.getImage()!=null){
+            updateWrapper.set(Goods::getImage, good.getImage());
+        }else if (good.getTypeId()!=null){
+            updateWrapper.set(Goods::getTypeId, good.getTypeId());
+        }
+
+        goodsMapper.update(good, updateWrapper);
 
         GoodsDTO goodsDTO = goodsToDTO(good);
         String goodsDTOString = JSON.toJSONString(goodsDTO);

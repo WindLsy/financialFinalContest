@@ -121,6 +121,11 @@ public class GoodsController {
                 .build();
     }
 
+    /**
+     * 提供给swap使用
+     * @param listId
+     * @return
+     */
     @GetMapping("/getGoods")
     public List<GoodsDTO> getGoods(@RequestParam List<Long> listId){
 

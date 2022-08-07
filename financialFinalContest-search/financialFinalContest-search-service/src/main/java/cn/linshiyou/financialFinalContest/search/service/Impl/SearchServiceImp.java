@@ -111,16 +111,16 @@ public class SearchServiceImp implements SearchService {
             queryBuilder.must(QueryBuilders.matchQuery("typeId", typeId));
         }
 
-        HighlightBuilder highlightBuilder = new HighlightBuilder();
-        highlightBuilder.field("name");
-        highlightBuilder.field("description");
-        highlightBuilder.preTags("<esm>");
-        highlightBuilder.postTags("</esm>");
+//        HighlightBuilder highlightBuilder = new HighlightBuilder();
+//        highlightBuilder.field("name");
+//        highlightBuilder.field("description");
+//        highlightBuilder.preTags("<esm>");
+//        highlightBuilder.postTags("</esm>");
 
         NativeSearchQuery query = new NativeSearchQueryBuilder()
                 .withPageable(pageable)
                 .withSort(sortBuilder)
-                .withHighlightBuilder(highlightBuilder)
+//                .withHighlightBuilder(highlightBuilder)
                 .withQuery(queryBuilder)
                 .build();
 

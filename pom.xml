@@ -32,6 +32,7 @@
         <jodatime.version>2.10.1</jodatime.version>
         <jwt.version>0.9.0</jwt.version>
         <httpclient.version>4.5.1</httpclient.version>
+        <alibaba.version>2.2.5.RELEASE</alibaba.version>
 
     </properties>
 
@@ -43,8 +44,6 @@
     </parent>
 
     <dependencyManagement>
-
-
 
         <dependencies>
             <!-- springCloud -->
@@ -59,7 +58,7 @@
             <dependency>
                 <groupId>com.alibaba.cloud</groupId>
                 <artifactId>spring-cloud-alibaba-dependencies</artifactId>
-                <version>2.2.5.RELEASE</version>
+                <version>${alibaba.version}</version>
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
@@ -126,12 +125,6 @@
                 <artifactId>mapstruct-processor</artifactId>
                 <version>${org.mapstruct.version}</version>
             </dependency>
-            <!-- fastjson -->
-            <dependency>
-                <groupId>com.alibaba</groupId>
-                <artifactId>fastjson</artifactId>
-                <version>1.2.68</version>
-            </dependency>
             <!--阿里云-->
             <dependency>
                 <groupId>com.aliyun</groupId>
@@ -156,7 +149,23 @@
                 <artifactId>httpclient</artifactId>
                 <version>${httpclient.version}</version>
             </dependency>
-
+            <!--seata-->
+            <dependency>
+                <groupId>com.alibaba.cloud</groupId>
+                <artifactId>spring-cloud-starter-alibaba-seata</artifactId>
+                <version>${alibaba.version}</version>
+                <exclusions>
+                    <exclusion>
+                        <artifactId>seata-spring-boot-starter</artifactId>
+                        <groupId>io.seata</groupId>
+                    </exclusion>
+                </exclusions>
+            </dependency>
+            <dependency>
+                <groupId>io.seata</groupId>
+                <artifactId>seata-spring-boot-starter</artifactId>
+                <version>1.4.2</version>
+            </dependency>
         </dependencies>
 
     </dependencyManagement>

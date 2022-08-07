@@ -2,6 +2,9 @@ server:
   port: 10011
 
 spring:
+  profiles:
+    include:
+      - seata
   main:
     allow-bean-definition-overriding: true
   datasource:

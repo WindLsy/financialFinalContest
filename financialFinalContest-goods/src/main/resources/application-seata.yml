@@ -1,0 +1,15 @@
+seata:
+  registry: # TC服务注册中心的配置，微服务根据这些信息去注册中心获取tc服务地址
+    type: nacos # 注册中心类型 nacos
+    nacos:
+      server-addr: txyun5.linshiyou.cn:8848 # nacos地址
+      namespace: "" # namespace，默认为空
+      group: DEFAULT_GROUP # 分组，默认是DEFAULT_GROUP
+      application: seata-tc-server # seata服务名称
+      username: nacos
+      password: gJ0}kP7;sC0
+  tx-service-group: seata-financialFinalContest-swap # 事务组名称
+  service:
+    vgroup-mapping: # 事务组与cluster的映射关系
+      seata-financialFinalContest-swap: SH
+  data-source-proxy-mode: XA
