@@ -46,9 +46,9 @@ public class SwapController {
      * @param swapList
      * @return
      */
-    @PostMapping("/inone")
-    public Result swapOne ( @RequestParam Long userAId,
-                            @RequestParam Long userBId,
+    @PostMapping("/inone/{userAId}/{userBId}")
+    public Result swapOne ( @PathVariable(value = "userAId") Long userAId,
+                            @PathVariable(value = "userBId") Long userBId,
                             @RequestBody List<Swap> swaps){
 
         swapService.stageOneSwap(userAId, userBId, swaps);

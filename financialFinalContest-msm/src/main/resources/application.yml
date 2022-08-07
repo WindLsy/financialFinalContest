@@ -26,5 +26,3 @@ spring:
     username: zzh
     password: zzh
 
-logging:
-  config: classpath:log4j2.xml
