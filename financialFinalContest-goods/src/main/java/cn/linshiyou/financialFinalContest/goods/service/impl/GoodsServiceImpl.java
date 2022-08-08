@@ -2,7 +2,6 @@ package cn.linshiyou.financialFinalContest.goods.service.impl;
 
 
 import cn.linshiyou.financialFinalContest.common.feign.CodeStateFeign;
-import cn.linshiyou.financialFinalContest.common.feign.CommonFeign;
 import cn.linshiyou.financialFinalContest.goods.config.RabbitMQConfig;
 import cn.linshiyou.financialFinalContest.goods.convert.GoodsConvert;
 import cn.linshiyou.financialFinalContest.goods.dao.dto.GoodsDTO;
@@ -15,14 +14,11 @@ import com.alibaba.fastjson.JSON;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.github.pagehelper.Page;
-import com.github.pagehelper.PageHelper;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
-import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.Serializable;
@@ -48,8 +44,6 @@ public class GoodsServiceImpl extends ServiceImpl<GoodsMapper, Goods> implements
     @Autowired
     private CodeStateFeign codeStateFeign;
 
-    @Autowired
-    private CommonFeign commonFeign;
 
     @Autowired
     private RabbitTemplate rabbitTemplate;
@@ -235,10 +229,13 @@ public class GoodsServiceImpl extends ServiceImpl<GoodsMapper, Goods> implements
     private GoodsDTO goodsToDTO(Goods good){
         // 完整数据
         GoodsDTO goodsDTO = GoodsConvert.INSTANCE.goods2DTO(good);
-        LinkedHashMap<String, String> data = (LinkedHashMap<String, String>) codeStateFeign.getById(goodsDTO.getTypeId()).getData();
-        goodsDTO.setTypeName(data.get("name"));
-        LinkedHashMap<String, String> status = (LinkedHashMap<String, String>) codeStateFeign.getById(goodsDTO.getStatusId()).getData();
-        goodsDTO.setStatusName(status.get("name"));
+        if (goodsDTO.getTypeId()!=null){
+            LinkedHashMap<String, String> data = (LinkedHashMap<String, String>) codeStateFeign.getById(goodsDTO.getTypeId()).getData();
+            goodsDTO.setTypeName(data.get("name"));
+        }else if (good.getStatusId()!=null){
+            LinkedHashMap<String, String> status = (LinkedHashMap<String, String>) codeStateFeign.getById(goodsDTO.getStatusId()).getData();
+            goodsDTO.setStatusName(status.get("name"));
+        }
 
         return goodsDTO;
     }

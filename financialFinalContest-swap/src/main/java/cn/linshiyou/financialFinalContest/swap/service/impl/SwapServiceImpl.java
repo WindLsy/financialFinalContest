@@ -58,8 +58,8 @@ public class SwapServiceImpl extends ServiceImpl<SwapMapper, Swap> implements Sw
      * 交易第一阶段
      * @param swapList
      */
-    @Transactional
     @Override
+    @GlobalTransactional
     public void stageOneSwap(Long userAId, Long userBId, List<Swap> swaps) {
 
         SwapBill swapBill = new SwapBill();
