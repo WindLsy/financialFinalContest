@@ -50,4 +50,10 @@ public interface GoodsService extends IService<Goods> {
      * @return
      */
     List<GoodsDTO> listGoodDTOByIds(List<Long> listId);
+
+    /**
+     * 修改物品(list)
+     * @return
+     */
+    void updateByList(List<Goods> goodsList);
 }

@@ -38,4 +38,13 @@ public interface GoodsFeign {
     @GetMapping("/{id}")
     Result getById(@PathVariable(value = "id") Long id);
 
+    /**
+     * 修改物品(list)
+     * @return
+     */
+    @PutMapping("/updateByList")
+    Result updateByList(@RequestBody List<Goods> goodsList);
+
+
+
 }

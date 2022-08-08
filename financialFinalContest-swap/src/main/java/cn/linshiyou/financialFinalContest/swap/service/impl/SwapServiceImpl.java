@@ -101,6 +101,7 @@ public class SwapServiceImpl extends ServiceImpl<SwapMapper, Swap> implements Sw
      * @param swapList
      */
     @Override
+    @GlobalTransactional
     public void stageTwoSwap(SwapBill swapBill) {
 
         SwapBill billData = swapBillMapper.selectById(swapBill.getId());
@@ -111,7 +112,6 @@ public class SwapServiceImpl extends ServiceImpl<SwapMapper, Swap> implements Sw
                 .set(SwapBill::getStatusId, swapBill.getStatusId())
                 .set(SwapBill::getUpdateTime, swapBill.getUpdateTime()));
 
-        List<Swap> swapList = swapMapper.selectList(new LambdaQueryWrapper<Swap>().eq(Swap::getListId, swapBill.getId()));
 
         // 如果拒绝，则对所有物品进行解冻
         if (swapBill.getStatusId()==6){
@@ -216,13 +216,16 @@ public class SwapServiceImpl extends ServiceImpl<SwapMapper, Swap> implements Sw
 
         List<Swap> swapList = swapMapper.selectList(new LambdaQueryWrapper<Swap>().eq(Swap::getListId, swapBill.getId()));
 
+        List<Goods> goodsList = new ArrayList<>();
         // 如果拒绝，则对所有物品进行解冻
         for (Swap swap: swapList){
             Goods goods = new Goods();
             goods.setId(swap.getGoodId());
             goods.setStatusId(statusId);
-            goodsFeign.updateById(goods);
+            goodsList.add(goods);
         }
+
+        goodsFeign.updateByList(goodsList);
 
     }
 

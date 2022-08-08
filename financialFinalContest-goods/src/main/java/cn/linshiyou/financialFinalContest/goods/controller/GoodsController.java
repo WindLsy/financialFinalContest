@@ -128,11 +128,26 @@ public class GoodsController {
      */
     @GetMapping("/getGoods")
     public List<GoodsDTO> getGoods(@RequestParam List<Long> listId){
-
         List<GoodsDTO> goodsDTOS = goodsService.listGoodDTOByIds(listId);
-
         return goodsDTOS;
     }
+
+    /**
+     * 修改物品(list)
+     * @return
+     */
+    @PutMapping("/updateByList")
+    public Result updateByList(@RequestBody List<Goods> goodsList){
+
+        goodsService.updateByList(goodsList);
+
+        return Result.builder()
+                .flag(true)
+                .code(StatusCode.OK)
+                .message("修改成功")
+                .build();
+    }
+
 
 }
 

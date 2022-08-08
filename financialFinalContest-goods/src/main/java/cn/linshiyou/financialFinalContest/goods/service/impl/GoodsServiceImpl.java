@@ -116,6 +116,15 @@ public class GoodsServiceImpl extends ServiceImpl<GoodsMapper, Goods> implements
         return true;
     }
 
+    @Override
+    public void updateByList(List<Goods> goodsList) {
+
+        for (Goods goods: goodsList){
+            updateById(goods);
+        }
+    }
+
+
     /**
      * 根据id查询
      * @param id
@@ -197,6 +206,7 @@ public class GoodsServiceImpl extends ServiceImpl<GoodsMapper, Goods> implements
 
         return goodsDTOList;
     }
+
 
     /**
      * 根据id删除
