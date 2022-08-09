@@ -16,6 +16,11 @@ public interface SearchService {
      */
     void addOrUpdateEsGoodsDTO(GoodsDTO goodsDTO);
 
+    /**
+     * 修改数据
+     */
+    void UpdateEsGoodsDTO(GoodsDTO goodsDTO);
+
 
     /**
      * 创建索引，如果存在就不用创建

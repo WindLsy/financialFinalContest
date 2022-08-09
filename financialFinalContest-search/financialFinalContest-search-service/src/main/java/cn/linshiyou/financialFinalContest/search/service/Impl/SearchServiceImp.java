@@ -21,6 +21,7 @@ import org.springframework.data.elasticsearch.core.document.Document;
 import org.springframework.data.elasticsearch.core.mapping.IndexCoordinates;
 import org.springframework.data.elasticsearch.core.query.NativeSearchQuery;
 import org.springframework.data.elasticsearch.core.query.NativeSearchQueryBuilder;
+import org.springframework.data.elasticsearch.core.query.UpdateQuery;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -38,12 +39,45 @@ public class SearchServiceImp implements SearchService {
 
 
     /**
-     * 向es中添加数据
+     * 向es中添加数据/修改数据
      * @param goodsDTO
      */
     @Override
     public void addOrUpdateEsGoodsDTO(GoodsDTO goodsDTO) {
         elasticsearchRestTemplate.save(goodsDTO, IndexCoordinates.of(Constant.GOODS_INFO));
+    }
+
+    /**
+     * 修改数据[弃用]
+     */
+    @Override
+    public void UpdateEsGoodsDTO(GoodsDTO goodsDTO) {
+
+
+        Document document = Document.create();
+        if (goodsDTO.getTypeId()!=null){
+            document.put("typeId", goodsDTO.getTypeId());
+            document.put("typeName", goodsDTO.getTypeName());
+        }else if (goodsDTO.getStatusId()!=null){
+            document.put("statusId", goodsDTO.getStatusId());
+            document.put("statusName", goodsDTO.getStatusName());
+        }else if (!StringUtils.isEmpty(goodsDTO.getDescription())){
+            document.put("description", goodsDTO.getDescription());
+        }else if (!StringUtils.isEmpty(goodsDTO.getImage())){
+            document.put("image", goodsDTO.getImage());
+        }else if (goodsDTO.getPrice()!=null){
+            document.put("price", goodsDTO.getPrice());
+        }else if (goodsDTO.getUserId()!=null){
+            document.put("userId", goodsDTO.getUserId());
+        }else if (!StringUtils.isEmpty(goodsDTO.getName())){
+            document.put("name", goodsDTO.getName());
+        }
+
+        UpdateQuery updateQuery = UpdateQuery.builder(String.valueOf(goodsDTO.getId()))
+                .withDocument(document)
+                .build();
+
+        elasticsearchRestTemplate.update(updateQuery, IndexCoordinates.of(Constant.GOODS_INFO));
     }
 
     /**
@@ -111,16 +145,10 @@ public class SearchServiceImp implements SearchService {
             queryBuilder.must(QueryBuilders.matchQuery("typeId", typeId));
         }
 
-//        HighlightBuilder highlightBuilder = new HighlightBuilder();
-//        highlightBuilder.field("name");
-//        highlightBuilder.field("description");
-//        highlightBuilder.preTags("<esm>");
-//        highlightBuilder.postTags("</esm>");
 
         NativeSearchQuery query = new NativeSearchQueryBuilder()
                 .withPageable(pageable)
                 .withSort(sortBuilder)
-//                .withHighlightBuilder(highlightBuilder)
                 .withQuery(queryBuilder)
                 .build();
 

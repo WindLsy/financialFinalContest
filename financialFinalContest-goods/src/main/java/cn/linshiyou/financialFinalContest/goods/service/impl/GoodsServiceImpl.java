@@ -75,37 +75,46 @@ public class GoodsServiceImpl extends ServiceImpl<GoodsMapper, Goods> implements
 
     /**
      * 修改
+     *
+     * 出现过的问题
+     * 虽然更新了，但是因为事务的关系，还没有提交，所以下面这一步从数据库中查出来的数据是不准确的，
+     * 更新之前的数据
      * @param entity
      * @return
      */
     @Override
     public boolean updateById(Goods good) {
 
-        LambdaUpdateWrapper<Goods> updateWrapper = new LambdaUpdateWrapper<>();
-        updateWrapper.eq(Goods::getId, good.getId());
+        Goods goodsData = goodsMapper.selectById(good.getId());
+
         if (!StringUtils.isEmpty(good.getDescription())){
-            updateWrapper.set(Goods::getDescription, good.getDescription());
-        }else if (good.getPrice()!=null){
-            updateWrapper.set(Goods::getPrice, good.getPrice());
-        }else if (good.getStatusId()!=null){
-            updateWrapper.set(Goods::getStatusId, good.getStatusId());
-        }else if (good.getUserId()!=null){
-            updateWrapper.set(Goods::getUserId, good.getUserId());
-        }else if (good.getImage()!=null){
-            updateWrapper.set(Goods::getImage, good.getImage());
-        }else if (good.getTypeId()!=null){
-            updateWrapper.set(Goods::getTypeId, good.getTypeId());
+            goodsData.setDescription(good.getDescription());
+        }
+        if (good.getPrice()!=null){
+            goodsData.setPrice(good.getPrice());
+        }
+        if (good.getStatusId()!=null){
+            goodsData.setStatusId(good.getStatusId());
+        }
+        if (good.getUserId()!=null){
+            goodsData.setUserId(good.getUserId());
+        }
+        if (good.getImage()!=null){
+            goodsData.setImage(good.getImage());
+        }
+        if (good.getTypeId()!=null){
+            goodsData.setTypeId(good.getTypeId());
         }
 
-        goodsMapper.update(good, updateWrapper);
 
-        GoodsDTO goodsDTO = goodsToDTO(good);
+        goodsMapper.updateById(goodsData);
+        GoodsDTO goodsDTO = goodsToDTO(goodsData);
         String goodsDTOString = JSON.toJSONString(goodsDTO);
         // 发送到redis
         stringRedisTemplate.opsForValue().set(Constant.REDIS_PRE+goodsDTO.getId(), goodsDTOString);
         stringRedisTemplate.expire(Constant.REDIS_PRE+ goodsDTO.getId(), Constant.REDIS_EXPIRE, TimeUnit.HOURS);
         // 发送到MQ
-        rabbitTemplate.convertAndSend(RabbitMQConfig.AD_GOODS_QUEUE, goodsDTOString);
+        rabbitTemplate.convertAndSend(RabbitMQConfig.UPDATE_GOODS_QUEUE, goodsDTOString);
 
         return true;
     }
@@ -236,7 +245,6 @@ public class GoodsServiceImpl extends ServiceImpl<GoodsMapper, Goods> implements
             LinkedHashMap<String, String> status = (LinkedHashMap<String, String>) codeStateFeign.getById(goodsDTO.getStatusId()).getData();
             goodsDTO.setStatusName(status.get("name"));
         }
-
         return goodsDTO;
     }
 }

@@ -80,7 +80,7 @@ public class SwapServiceImpl extends ServiceImpl<SwapMapper, Swap> implements Sw
         }
 
         // 对所有参与交换的物品进行冻结
-        changeGoodsStatus(15, swapBill);
+        changeGoodsStatus(15, swapBill, 1);
 
         // MQ消息体
         SwapMq swapMq = new SwapMq();
@@ -115,7 +115,7 @@ public class SwapServiceImpl extends ServiceImpl<SwapMapper, Swap> implements Sw
 
         // 如果拒绝，则对所有物品进行解冻
         if (swapBill.getStatusId()==6){
-            changeGoodsStatus(12, swapBill);
+            changeGoodsStatus(12, swapBill, 2);
         }
 
         // MQ消息体
@@ -150,18 +150,13 @@ public class SwapServiceImpl extends ServiceImpl<SwapMapper, Swap> implements Sw
                 .set(SwapBill::getStatusId, swapBill.getStatusId())
                 .set(SwapBill::getUpdateTime, swapBill.getUpdateTime()));
 
-        List<Swap> swaps = swapMapper.selectList(new LambdaQueryWrapper<Swap>()
+        List<Swap> swapList = swapMapper.selectList(new LambdaQueryWrapper<Swap>()
                 .eq(Swap::getListId, swapBill.getId()));
 
-        //交换物品同时下架
-        for (Swap swap: swaps){
-            Goods goods = new Goods();
-            goods.setId(swap.getGoodId());
-            goods.setUserId(swap.getUserFinalId());
-            goods.setStatusId(13);
 
-            goodsFeign.updateById(goods);
-        }
+        //交换物品同时下架
+        changeGoodsStatus(13, swapBill, 3);
+
 
         // MQ消息体
         SwapBill billData = swapBillMapper.selectById(swapBill.getId());
@@ -169,7 +164,7 @@ public class SwapServiceImpl extends ServiceImpl<SwapMapper, Swap> implements Sw
         swapMq.setDescription(billData.getDescription());
         swapMq.setUserAid(billData.getUserAid());
         swapMq.setUserBid(billData.getUserBid());
-        swapMq.setSwaps(swaps);
+        swapMq.setSwaps(swapList);
         String swapListJson = JSON.toJSONString(swapMq);
         // 发送到MQ
         rabbitTemplate.convertAndSend(RabbitMQConfig.SWAP_THREE_QUEUE, swapListJson);
@@ -212,7 +207,7 @@ public class SwapServiceImpl extends ServiceImpl<SwapMapper, Swap> implements Sw
      * 更改物品状态
      * @param statusId
      */
-    private void changeGoodsStatus(int statusId, SwapBill swapBill){
+    private void changeGoodsStatus(int statusId, SwapBill swapBill, int index){
 
         List<Swap> swapList = swapMapper.selectList(new LambdaQueryWrapper<Swap>().eq(Swap::getListId, swapBill.getId()));
 
@@ -222,6 +217,10 @@ public class SwapServiceImpl extends ServiceImpl<SwapMapper, Swap> implements Sw
             Goods goods = new Goods();
             goods.setId(swap.getGoodId());
             goods.setStatusId(statusId);
+            if (index==3){
+                goods.setUserId(swap.getUserFinalId());
+            }
+//            goodsFeign.updateById(goods);
             goodsList.add(goods);
         }
 

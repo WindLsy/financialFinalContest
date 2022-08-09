@@ -35,6 +35,7 @@ public class GoodsEsListener {
     public void receiveUpdateMessage(String goodsDTOString){
 
         GoodsDTO goodsDTO = JSON.parseObject(goodsDTOString, GoodsDTO.class);
+//        esGoodsService.UpdateEsGoodsDTO(goodsDTO);
         esGoodsService.addOrUpdateEsGoodsDTO(goodsDTO);
     }
     /**
