@@ -2,6 +2,9 @@ server:
   port: 10014
 
 spring:
+  profiles:
+    include:
+      - seata
   main:
     allow-bean-definition-overriding: true
   application:
@@ -21,7 +24,6 @@ spring:
   rabbitmq:
     host: 199.115.231.73
     port: 5672
-
 mybatis-plus:
   configuration:
     #日志打印到控制台
