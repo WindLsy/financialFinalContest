@@ -39,17 +39,13 @@ public class AuthorizeFilter implements GlobalFilter {
                 || path.startsWith("/search")
                 || path.startsWith("/codeState/list")
                 || path.startsWith("/msm/send")
-                || path.startsWith("/swap/inone")
-                || path.startsWith("/swap/intwo")
-                || path.startsWith("/swap/inthree")
+                || path.startsWith("/goods")
                 || path.startsWith("/file/upload")
                 ) {
-
             return chain.filter(exchange);
         }
         HttpHeaders headers = request.getHeaders();
         String token = headers.getFirst(AUTHORIZE_TOKEN);
-
 
         if (StringUtils.isEmpty(token)) {
             response.setStatusCode(HttpStatus.UNAUTHORIZED);

@@ -30,18 +30,6 @@ public class UserInfo extends BaseEntity {
     @TableField("name")
     private String name;
 
-    @TableField("certificates_type")
-    private String certificatesType;
-
-    @TableField("certificates_no")
-    private String certificatesNo;
-
-    @TableField("certificates_url")
-    private String certificatesUrl;
-
-    @TableField("auth_status")
-    private Integer authStatus;
-
     @TableField("status")
     private Integer status;
 
