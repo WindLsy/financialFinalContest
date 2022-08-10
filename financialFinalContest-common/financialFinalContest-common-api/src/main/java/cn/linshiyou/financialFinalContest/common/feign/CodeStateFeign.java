@@ -23,13 +23,12 @@ public interface CodeStateFeign {
     Result add(@PathVariable("type_id") int type_id, @PathVariable("name") String name);
 
     /**
-     * 根据id查询状态
+     * 根据id查询状态为了feign
      * @param id 状态id
      * @return codeState
      */
-    @GetMapping("/{id}")
-    Result getById(@PathVariable("id") int id);
-
+    @GetMapping("/name/{id}")
+    String getNameById(@PathVariable("id") int id);
     /**
      * 根据类型id查询所有状态
      * @param type_id 类型type_id

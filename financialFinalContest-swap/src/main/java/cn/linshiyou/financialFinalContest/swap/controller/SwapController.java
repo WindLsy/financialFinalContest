@@ -7,7 +7,6 @@ import cn.linshiyou.financialFinalContest.swap.dao.entity.Swap;
 import cn.linshiyou.financialFinalContest.swap.dao.entity.SwapBill;
 import cn.linshiyou.financialFinalContest.swap.dao.vo.GoodsDTO;
 import cn.linshiyou.financialFinalContest.swap.dao.vo.SwapBillVo;
-import cn.linshiyou.financialFinalContest.swap.service.SwapBillService;
 import cn.linshiyou.financialFinalContest.swap.service.SwapService;
 import com.github.pagehelper.Page;
 import org.springframework.beans.factory.annotation.Autowired;

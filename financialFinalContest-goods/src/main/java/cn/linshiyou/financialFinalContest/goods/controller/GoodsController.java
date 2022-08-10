@@ -1,14 +1,11 @@
 package cn.linshiyou.financialFinalContest.goods.controller;
 
 
-import cn.linshiyou.financialFinalContest.common.feign.CommonFeign;
 import cn.linshiyou.financialFinalContest.common.pojo.Result;
 import cn.linshiyou.financialFinalContest.common.pojo.StatusCode;
 import cn.linshiyou.financialFinalContest.goods.dao.dto.GoodsDTO;
 import cn.linshiyou.financialFinalContest.goods.dao.entity.Goods;
 import cn.linshiyou.financialFinalContest.goods.service.GoodsService;
-import com.github.pagehelper.Page;
-import feign.Param;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;

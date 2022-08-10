@@ -245,12 +245,12 @@ public class GoodsServiceImpl extends ServiceImpl<GoodsMapper, Goods> implements
         // 完整数据
         GoodsDTO goodsDTO = GoodsConvert.INSTANCE.goods2DTO(good);
         if (goodsDTO.getTypeId()!=null){
-            LinkedHashMap<String, String> data = (LinkedHashMap<String, String>) codeStateFeign.getById(goodsDTO.getTypeId()).getData();
-            goodsDTO.setTypeName(data.get("name"));
+            String name = codeStateFeign.getNameById(goodsDTO.getTypeId());
+            goodsDTO.setTypeName(name);
         }
         if (good.getStatusId()!=null){
-            LinkedHashMap<String, String> status = (LinkedHashMap<String, String>) codeStateFeign.getById(goodsDTO.getStatusId()).getData();
-            goodsDTO.setStatusName(status.get("name"));
+            String name = codeStateFeign.getNameById(goodsDTO.getStatusId());
+            goodsDTO.setStatusName(name);
         }
         return goodsDTO;
     }

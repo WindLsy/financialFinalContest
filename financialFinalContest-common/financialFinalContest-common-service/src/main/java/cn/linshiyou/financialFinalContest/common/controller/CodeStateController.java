@@ -87,5 +87,18 @@ public class CodeStateController {
                 .build();
     }
 
+    /**
+     * 根据id查询状态为了feign
+     * @param id 状态id
+     * @return codeState
+     */
+    @GetMapping("/name/{id}")
+    public String getNameById(@PathVariable("id") int id){
+        CodeState codeState = codeStateService.getById(id);
+
+        return codeState.getName();
+    }
+
+
 }
 

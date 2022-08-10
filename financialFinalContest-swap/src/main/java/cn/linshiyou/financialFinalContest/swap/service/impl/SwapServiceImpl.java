@@ -23,7 +23,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.LinkedHashMap;
@@ -59,7 +58,7 @@ public class SwapServiceImpl extends ServiceImpl<SwapMapper, Swap> implements Sw
      * @param swapList
      */
     @Override
-    @GlobalTransactional
+    @Transactional
     public void stageOneSwap(Long userAId, Long userBId, List<Swap> swaps) {
 
         SwapBill swapBill = new SwapBill();
@@ -101,7 +100,7 @@ public class SwapServiceImpl extends ServiceImpl<SwapMapper, Swap> implements Sw
      * @param swapList
      */
     @Override
-    @GlobalTransactional
+    @Transactional
     public void stageTwoSwap(SwapBill swapBill) {
 
         SwapBill billData = swapBillMapper.selectById(swapBill.getId());
@@ -111,7 +110,8 @@ public class SwapServiceImpl extends ServiceImpl<SwapMapper, Swap> implements Sw
                 .eq(SwapBill::getId, swapBill.getId())
                 .set(SwapBill::getStatusId, swapBill.getStatusId())
                 .set(SwapBill::getUpdateTime, swapBill.getUpdateTime()));
-
+        billData.setStatusId(swapBill.getStatusId());
+        billData.setUpdateTime(swapBill.getUpdateTime());
 
         // 如果拒绝，则对所有物品进行解冻
         if (swapBill.getStatusId()==6){
@@ -140,7 +140,7 @@ public class SwapServiceImpl extends ServiceImpl<SwapMapper, Swap> implements Sw
      * @param swapList
      */
     @Override
-    @GlobalTransactional
+    @Transactional
     public void stageThreeSwap(SwapBill swapBill) {
 
         swapBill.setStatusId(5);
