@@ -171,7 +171,10 @@ public class GoodsServiceImpl extends ServiceImpl<GoodsMapper, Goods> implements
 
         List<Goods> goodsList = new ArrayList<>();
 
-        List<Goods> goodsListBydata = goodsMapper.selectList(new LambdaQueryWrapper<Goods>().eq(Goods::getUserId, userId).orderByAsc(Goods::getPrice));
+        List<Goods> goodsListBydata = goodsMapper.selectList(new LambdaQueryWrapper<Goods>()
+                .eq(Goods::getUserId, userId)
+                .eq(Goods::getStatusId, 12)
+                .orderByAsc(Goods::getPrice));
 
         double min = 0.0D;
         for (Goods goods: goodsListBydata){

@@ -16,10 +16,12 @@ spring:
     nacos:
       discovery:
         server-addr: txyun.linshiyou.cn:8848
-        namespace: d9071204-66d3-4d7b-9dbb-16dcbd337a3c
+#        namespace: d9071204-66d3-4d7b-9dbb-16dcbd337a3c
+        namespace: 045f0ce7-1b60-4b65-abec-e03c7d0a0fa6
         cluster-name: DEFAULT
+        ip: txyun.linshiyou.cn
   rabbitmq:
-    host: 199.115.231.73
+    host: txyun.linshiyou.cn
     port: 5672
 
 logging:
