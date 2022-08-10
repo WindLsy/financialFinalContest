@@ -58,18 +58,24 @@ public class SearchServiceImp implements SearchService {
         if (goodsDTO.getTypeId()!=null){
             document.put("typeId", goodsDTO.getTypeId());
             document.put("typeName", goodsDTO.getTypeName());
-        }else if (goodsDTO.getStatusId()!=null){
+        }
+        if (goodsDTO.getStatusId()!=null){
             document.put("statusId", goodsDTO.getStatusId());
             document.put("statusName", goodsDTO.getStatusName());
-        }else if (!StringUtils.isEmpty(goodsDTO.getDescription())){
+        }
+        if (!StringUtils.isEmpty(goodsDTO.getDescription())){
             document.put("description", goodsDTO.getDescription());
-        }else if (!StringUtils.isEmpty(goodsDTO.getImage())){
+        }
+        if (!StringUtils.isEmpty(goodsDTO.getImage())){
             document.put("image", goodsDTO.getImage());
-        }else if (goodsDTO.getPrice()!=null){
+        }
+        if (goodsDTO.getPrice()!=null){
             document.put("price", goodsDTO.getPrice());
-        }else if (goodsDTO.getUserId()!=null){
+        }
+        if (goodsDTO.getUserId()!=null){
             document.put("userId", goodsDTO.getUserId());
-        }else if (!StringUtils.isEmpty(goodsDTO.getName())){
+        }
+        if (!StringUtils.isEmpty(goodsDTO.getName())){
             document.put("name", goodsDTO.getName());
         }
 

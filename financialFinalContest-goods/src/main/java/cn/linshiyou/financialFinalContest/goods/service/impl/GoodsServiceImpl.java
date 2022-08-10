@@ -105,6 +105,9 @@ public class GoodsServiceImpl extends ServiceImpl<GoodsMapper, Goods> implements
         if (good.getTypeId()!=null){
             goodsData.setTypeId(good.getTypeId());
         }
+        if (!StringUtils.isEmpty(good.getName())){
+            goodsData.setName(good.getName());
+        }
 
 
         goodsMapper.updateById(goodsData);
@@ -168,7 +171,10 @@ public class GoodsServiceImpl extends ServiceImpl<GoodsMapper, Goods> implements
 
         List<Goods> goodsList = new ArrayList<>();
 
-        List<Goods> goodsListBydata = goodsMapper.selectList(new LambdaQueryWrapper<Goods>().eq(Goods::getUserId, userId).orderByAsc(Goods::getPrice));
+        List<Goods> goodsListBydata = goodsMapper.selectList(new LambdaQueryWrapper<Goods>()
+                .eq(Goods::getUserId, userId)
+                .eq(Goods::getStatusId, 12)
+                .orderByAsc(Goods::getPrice));
 
         double min = 0.0D;
         for (Goods goods: goodsListBydata){
@@ -241,7 +247,8 @@ public class GoodsServiceImpl extends ServiceImpl<GoodsMapper, Goods> implements
         if (goodsDTO.getTypeId()!=null){
             LinkedHashMap<String, String> data = (LinkedHashMap<String, String>) codeStateFeign.getById(goodsDTO.getTypeId()).getData();
             goodsDTO.setTypeName(data.get("name"));
-        }else if (good.getStatusId()!=null){
+        }
+        if (good.getStatusId()!=null){
             LinkedHashMap<String, String> status = (LinkedHashMap<String, String>) codeStateFeign.getById(goodsDTO.getStatusId()).getData();
             goodsDTO.setStatusName(status.get("name"));
         }
