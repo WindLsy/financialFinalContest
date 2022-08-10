@@ -98,6 +98,8 @@ public class UserInfoServiceImpl extends
             name = userInfo.getPhone();
         }
         map.put("name", name);
+        Long id = userInfo.getId();
+        map.put("userId", id);
 
         //jwt生成token字符串
         String token = JwtHelper.createToken(userInfo.getId(), name);
