@@ -115,7 +115,7 @@ public class SwapServiceImpl extends ServiceImpl<SwapMapper, Swap> implements Sw
 
 
         // 如果拒绝，则对所有物品进行解冻
-        if (billData.getStatusId()==6){
+        if (billData.getStatusId()==6 || billData.getStatusId()==7){
             changeGoodsStatus(12, billData, 2);
         }
 
