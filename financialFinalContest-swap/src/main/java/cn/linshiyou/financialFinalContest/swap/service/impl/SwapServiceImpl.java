@@ -10,7 +10,6 @@ import cn.linshiyou.financialFinalContest.swap.dao.mapper.SwapMapper;
 import cn.linshiyou.financialFinalContest.swap.dao.vo.GoodsDTO;
 import cn.linshiyou.financialFinalContest.swap.dao.vo.SwapBillVo;
 import cn.linshiyou.financialFinalContest.swap.feign.GoodsFeign;
-import cn.linshiyou.financialFinalContest.swap.service.SwapBillService;
 import cn.linshiyou.financialFinalContest.swap.service.SwapService;
 import com.alibaba.fastjson.JSON;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
@@ -22,7 +21,6 @@ import io.seata.spring.annotation.GlobalTransactional;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -79,7 +77,7 @@ public class SwapServiceImpl extends ServiceImpl<SwapMapper, Swap> implements Sw
         }
 
         // 对所有参与交换的物品进行冻结
-        changeGoodsStatus(15, swapBill, 1);
+        changeGoodsStatus(15, swapBill, 1, swaps);
 
         // MQ消息体
         SwapMq swapMq = new SwapMq();
@@ -116,7 +114,7 @@ public class SwapServiceImpl extends ServiceImpl<SwapMapper, Swap> implements Sw
 
         // 如果拒绝，则对所有物品进行解冻
         if (billData.getStatusId()==6 || billData.getStatusId()==7){
-            changeGoodsStatus(12, billData, 2);
+            changeGoodsStatus(12, billData, 2, null);
         }
 
         // MQ消息体
@@ -154,7 +152,7 @@ public class SwapServiceImpl extends ServiceImpl<SwapMapper, Swap> implements Sw
 
 
         //交换物品同时下架
-        changeGoodsStatus(13, swapBill, 3);
+        changeGoodsStatus(13, swapBill, 3, null);
 
         // MQ消息体
         SwapBill billData = swapBillMapper.selectById(swapBill.getId());
@@ -205,9 +203,14 @@ public class SwapServiceImpl extends ServiceImpl<SwapMapper, Swap> implements Sw
      * 更改物品状态
      * @param statusId
      */
-    private void changeGoodsStatus(int statusId, SwapBill swapBill, int index){
+    private void changeGoodsStatus(int statusId, SwapBill swapBill, int index, List<Swap> swapInput){
 
-        List<Swap> swapList = swapMapper.selectList(new LambdaQueryWrapper<Swap>().eq(Swap::getListId, swapBill.getId()));
+        List<Swap> swapList = null;
+        if (index==1){
+            swapList = swapInput;
+        }else {
+            swapList = swapMapper.selectList(new LambdaQueryWrapper<Swap>().eq(Swap::getListId, swapBill.getId()));
+        }
 
         List<Goods> goodsList = new ArrayList<>();
         // 如果拒绝，则对所有物品进行解冻
