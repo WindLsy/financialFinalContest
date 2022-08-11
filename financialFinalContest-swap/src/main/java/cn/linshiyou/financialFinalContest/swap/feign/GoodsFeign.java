@@ -28,7 +28,7 @@ public interface GoodsFeign {
      * 修改物品
      * @return
      */
-    @PutMapping("/update/{id}")
+    @PutMapping("/update")
     Result updateById(@RequestBody Goods good);
 
     /**

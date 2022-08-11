@@ -127,10 +127,9 @@ public class SearchServiceImp implements SearchService {
         BoolQueryBuilder queryBuilder = QueryBuilders.boolQuery();
 
         // 商品状态
-        if (statusId==null){
-            statusId=12L;
+        if (statusId!=null){
+            queryBuilder.must(QueryBuilders.matchQuery("statusId",statusId));
         }
-        queryBuilder.must(QueryBuilders.matchQuery("statusId",statusId));
 
         if (!StringUtils.isEmpty(searchString)){
             queryBuilder.must(QueryBuilders.matchQuery("searchString", searchString));

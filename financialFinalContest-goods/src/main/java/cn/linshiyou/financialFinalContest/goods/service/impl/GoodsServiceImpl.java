@@ -86,6 +86,10 @@ public class GoodsServiceImpl extends ServiceImpl<GoodsMapper, Goods> implements
     public boolean updateById(Goods good) {
 
         Goods goodsData = goodsMapper.selectById(good.getId());
+        if (goodsData==null){
+            log.error("数据库与ES不同步");
+            return false;
+        }
 
         if (!StringUtils.isEmpty(good.getDescription())){
             goodsData.setDescription(good.getDescription());
@@ -129,7 +133,6 @@ public class GoodsServiceImpl extends ServiceImpl<GoodsMapper, Goods> implements
             updateById(goods);
         }
     }
-
 
     /**
      * 根据id查询

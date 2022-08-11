@@ -10,6 +10,7 @@ import cn.linshiyou.financialFinalContest.swap.dao.mapper.SwapMapper;
 import cn.linshiyou.financialFinalContest.swap.dao.vo.GoodsDTO;
 import cn.linshiyou.financialFinalContest.swap.dao.vo.SwapBillVo;
 import cn.linshiyou.financialFinalContest.swap.feign.GoodsFeign;
+import cn.linshiyou.financialFinalContest.swap.service.SwapBillService;
 import cn.linshiyou.financialFinalContest.swap.service.SwapService;
 import com.alibaba.fastjson.JSON;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
@@ -45,7 +46,6 @@ public class SwapServiceImpl extends ServiceImpl<SwapMapper, Swap> implements Sw
     @Autowired
     private SwapBillMapper swapBillMapper;
 
-
     @Autowired
     private RabbitTemplate rabbitTemplate;
 
@@ -58,7 +58,7 @@ public class SwapServiceImpl extends ServiceImpl<SwapMapper, Swap> implements Sw
      * @param swapList
      */
     @Override
-    @Transactional
+    @GlobalTransactional
     public void stageOneSwap(Long userAId, Long userBId, List<Swap> swaps) {
 
         SwapBill swapBill = new SwapBill();
@@ -100,27 +100,28 @@ public class SwapServiceImpl extends ServiceImpl<SwapMapper, Swap> implements Sw
      * @param swapList
      */
     @Override
-    @Transactional
+    @GlobalTransactional
     public void stageTwoSwap(SwapBill swapBill) {
 
         SwapBill billData = swapBillMapper.selectById(swapBill.getId());
 
-        swapBill.setUpdateTime(new Date());
-        swapBillMapper.update(swapBill, new LambdaUpdateWrapper<SwapBill>()
-                .eq(SwapBill::getId, swapBill.getId())
-                .set(SwapBill::getStatusId, swapBill.getStatusId())
-                .set(SwapBill::getUpdateTime, swapBill.getUpdateTime()));
         billData.setStatusId(swapBill.getStatusId());
-        billData.setUpdateTime(swapBill.getUpdateTime());
+        billData.setUpdateTime(new Date());
+
+        swapBill.setUpdateTime(billData.getUpdateTime());
+        //这里的更新会出现问题。TODO
+        swapBillMapper.update(swapBill, new LambdaUpdateWrapper<SwapBill>()
+                .eq(SwapBill::getId, billData.getId()));
+
 
         // 如果拒绝，则对所有物品进行解冻
-        if (swapBill.getStatusId()==6){
-            changeGoodsStatus(12, swapBill, 2);
+        if (billData.getStatusId()==6){
+            changeGoodsStatus(12, billData, 2);
         }
 
         // MQ消息体
         List<Swap> swaps = swapMapper.selectList(new LambdaQueryWrapper<Swap>()
-                .eq(Swap::getListId, swapBill.getId()));
+                .eq(Swap::getListId, billData.getId()));
         SwapMq swapMq = new SwapMq();
         swapMq.setDescription(billData.getDescription());
         swapMq.setUserAid(billData.getUserAid());
@@ -140,15 +141,13 @@ public class SwapServiceImpl extends ServiceImpl<SwapMapper, Swap> implements Sw
      * @param swapList
      */
     @Override
-    @Transactional
+    @GlobalTransactional
     public void stageThreeSwap(SwapBill swapBill) {
 
         swapBill.setStatusId(5);
         swapBill.setUpdateTime(new Date());
         swapBillMapper.update(swapBill, new LambdaUpdateWrapper<SwapBill>()
-                .eq(SwapBill::getId, swapBill.getId())
-                .set(SwapBill::getStatusId, swapBill.getStatusId())
-                .set(SwapBill::getUpdateTime, swapBill.getUpdateTime()));
+                .eq(SwapBill::getId, swapBill.getId()));
 
         List<Swap> swapList = swapMapper.selectList(new LambdaQueryWrapper<Swap>()
                 .eq(Swap::getListId, swapBill.getId()));
@@ -156,7 +155,6 @@ public class SwapServiceImpl extends ServiceImpl<SwapMapper, Swap> implements Sw
 
         //交换物品同时下架
         changeGoodsStatus(13, swapBill, 3);
-
 
         // MQ消息体
         SwapBill billData = swapBillMapper.selectById(swapBill.getId());
@@ -220,7 +218,6 @@ public class SwapServiceImpl extends ServiceImpl<SwapMapper, Swap> implements Sw
             if (index==3){
                 goods.setUserId(swap.getUserFinalId());
             }
-//            goodsFeign.updateById(goods);
             goodsList.add(goods);
         }
 
