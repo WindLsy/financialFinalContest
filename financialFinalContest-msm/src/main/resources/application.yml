@@ -18,7 +18,7 @@ spring:
         cluster-name: DEFAULT
 #        ip: txyun.linshiyou.cn
   rabbitmq:
-    host: 199.115.231.73
+    host: txyun.linshiyou.cn
     port: 5672
   datasource:
     type: com.alibaba.druid.pool.DruidDataSource
